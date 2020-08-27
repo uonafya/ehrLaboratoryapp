@@ -60,10 +60,9 @@
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>appui-omod</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
-			<artifactId>referenceapplication-omod</artifactId>
+			<artifactId>kenyaui-api</artifactId>
 		</dependency>
 
 		<!-- End OpenMRS modules -->

@@ -11,7 +11,6 @@ import org.openmrs.module.laboratory.LaboratoryService;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.appui.UiSessionContext;
-import org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants;
 import org.openmrs.ui.framework.page.PageRequest;
 
 

@@ -8,7 +8,6 @@ import org.openmrs.module.laboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.TestResultModel;
-import org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
