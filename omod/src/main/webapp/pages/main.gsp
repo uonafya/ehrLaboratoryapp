@@ -1,6 +1,6 @@
  <% 
 	ui.decorateWith("appui", "standardEmrPage", [title: "Laboratory Dashboard"])
-	ui.includeCss("registration", "onepcssgrid.css")
+	ui.includeCss("ehrcashier", "onepcssgrid.css")
 	
 	ui.includeJavascript("uicommons", "moment.js")
 	ui.includeJavascript("laboratoryapp", "jQuery.print.js")

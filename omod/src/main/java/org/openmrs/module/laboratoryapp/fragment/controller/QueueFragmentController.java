@@ -37,10 +37,11 @@ public class QueueFragmentController {
 		model.addAttribute("currentDate", dateStr);
 		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
 		Lab department = ls.getCurrentDepartment();
+		Set<Concept> investigations = new HashSet<Concept>();
 		if(department!=null){
-			Set<Concept> investigations = department.getInvestigationsToDisplay();
-			model.addAttribute("investigations", investigations);
+			investigations = department.getInvestigationsToDisplay();
 		}
+		model.addAttribute("investigations", investigations);
 	}
 
 	public List<SimpleObject> searchQueue(
