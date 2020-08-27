@@ -36,6 +36,6 @@ public class LaboratoryMetadata extends AbstractMetadataBundle {
         install(privilege(_Privilege.APP_LABORATORY_APP, "Able to access the laboratory app"));
         install(role(_Role.APPLICATION_LAB_MODULE, "Can access lab module Application",
                 idSet(org.openmrs.module.kenyaemr.metadata.SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
-                idSet(_Privilege.APP_LAB_MODULE_APP_PRIV, _Privilege.APP_LABORATORY_APP)));
+                idSet(_Privilege.APP_LAB_MODULE_APP_PRIV)));
     }
 }
