@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by Francis on 2/3/2016.
+ * Created by HealthIT
  */
 public class EditResultsFragmentController {
     private static Logger logger = LoggerFactory.getLogger(QueueFragmentController.class);

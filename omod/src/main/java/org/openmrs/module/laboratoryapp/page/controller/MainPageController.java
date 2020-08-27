@@ -9,7 +9,7 @@ import org.openmrs.ui.framework.page.PageRequest;
 import java.util.Date;
 
 /**
- * Created by Dennys Henry on 2/18/2016.
+ * Created by HealthIT
  */
 public class MainPageController {
     public String get( UiSessionContext sessionContext,
