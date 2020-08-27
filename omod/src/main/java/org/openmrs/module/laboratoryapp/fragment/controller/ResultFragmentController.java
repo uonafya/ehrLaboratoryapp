@@ -1,21 +1,21 @@
 package org.openmrs.module.laboratoryapp.fragment.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.BillingConstants;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueueLog;
 import org.openmrs.module.hospitalcore.util.GlobalPropertyUtil;
-import org.openmrs.module.laboratory.LaboratoryService;
 import org.openmrs.module.laboratoryapp.util.LaboratoryUtil;
 import org.openmrs.module.laboratoryapp.util.ParameterModel;
 import org.openmrs.module.laboratoryapp.util.ParameterOption;
@@ -27,6 +27,11 @@ import org.openmrs.ui.framework.annotation.BindParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class ResultFragmentController {
 	private static final Integer LAB_CONCEPT_ID = 2548;

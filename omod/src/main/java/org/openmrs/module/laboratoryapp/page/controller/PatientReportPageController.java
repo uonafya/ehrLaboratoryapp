@@ -4,7 +4,7 @@ import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.hospitalcore.model.LabTest;
-import org.openmrs.module.laboratory.LaboratoryService;
+import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.TestResultModel;

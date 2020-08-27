@@ -45,7 +45,7 @@ import org.openmrs.module.hospitalcore.concept.TestTree;
 import org.openmrs.module.hospitalcore.model.Lab;
 import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.hospitalcore.util.PatientUtils;
-import org.openmrs.module.laboratory.LaboratoryService;
+import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.springframework.ui.Model;
 
 public class LaboratoryUtil {

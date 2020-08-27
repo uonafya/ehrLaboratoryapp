@@ -7,7 +7,7 @@ import java.util.Set;
 import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.model.Lab;
-import org.openmrs.module.laboratory.LaboratoryService;
+import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.appui.UiSessionContext;

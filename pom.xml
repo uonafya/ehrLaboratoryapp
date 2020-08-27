@@ -36,7 +36,7 @@
 		<openMRSVersion>1.9.8</openMRSVersion>
 		<hospitalcoreVersion>1.0.0-SNAPSHOT</hospitalcoreVersion>
 		<kenyacoreVersion>2.4.1</kenyacoreVersion>
-		<kenyauiVersion>2.1.2-SNAPSHOT</kenyauiVersion>
+		<kenyauiVersion>2.1.1</kenyauiVersion>
 		<kenyaemrVersion>17.0.3</kenyaemrVersion>
 		<ehrlaboratory>1.0.0-SNAPSHOT</ehrlaboratory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
