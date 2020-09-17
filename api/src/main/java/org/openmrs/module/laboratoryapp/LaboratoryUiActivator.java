@@ -29,42 +29,42 @@ public class LaboratoryUiActivator implements ModuleActivator {
 	 * @see ModuleActivator#willRefreshContext()
 	 */
 	public void willRefreshContext() {
-		log.info("Refreshing Laboratory Module");
+		log.info("Refreshing Laboratory App Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#contextRefreshed()
 	 */
 	public void contextRefreshed() {
-		log.info("Laboratory Module refreshed");
+		log.info("Laboratory Module App refreshed");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStart()
 	 */
 	public void willStart() {
-		log.info("Starting Laboratory Module");
+		log.info("Starting Laboratory App Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		log.info("Laboratory Module started");
+		log.info("Laboratory Module App started");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStop()
 	 */
 	public void willStop() {
-		log.info("Stopping Laboratory Module");
+		log.info("Stopping Laboratory App Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#stopped()
 	 */
 	public void stopped() {
-		log.info("Laboratory Module stopped");
+		log.info("Laboratory Module App stopped");
 	}
 		
 }

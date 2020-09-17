@@ -6,6 +6,8 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
+import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.openmrs.module.laboratoryapp.LaboratoryConstants;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.TestResultModel;
 import org.openmrs.ui.framework.SimpleObject;
@@ -22,8 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Francis on 2/10/2016.
+ *
  */
+@AppPage(LaboratoryConstants.APP_LABORATORY_APP)
 public class PatientReportPageController {
     public String get(
             UiSessionContext sessionContext,
@@ -34,10 +37,7 @@ public class PatientReportPageController {
             PageRequest pageRequest){
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         sessionContext.requireAuthentication();
-        Boolean isPriviledged = Context.hasPrivilege("Access Laboratory");
-        if(!isPriviledged){
-            return "redirect: index.htm";
-        }
+
         Patient patient = Context.getPatientService().getPatient(patientId);
         HospitalCoreService hcs = Context.getService(HospitalCoreService.class);
 
@@ -46,13 +46,13 @@ public class PatientReportPageController {
         model.addAttribute("age", patient.getAge());
         model.addAttribute("gender" , patient.getGender());
         model.addAttribute("name", patient.getNames());
-        model.addAttribute("category", patient.getAttribute(14));
+        model.addAttribute("category", patient.getAttribute(14)); //uuid 09cd268a-f0f5-11ea-99a8-b3467ddbf779
         model.addAttribute("previousVisit",hcs.getLastVisitTime(patient));
 
         if (patient.getAttribute(43) == null){
             model.addAttribute("fileNumber", "");
         }
-        else if (StringUtils.isNotBlank(patient.getAttribute(43).getValue())){
+        else if (StringUtils.isNotBlank(patient.getAttribute(43).getValue())){ // uuid 09cd268a-f0f5-11ea-99a8-b3467ddbf779
             model.addAttribute("fileNumber", "(File: "+patient.getAttribute(43)+")");
         }
         else {

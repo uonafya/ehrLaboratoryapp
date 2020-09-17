@@ -1,6 +1,5 @@
 package org.openmrs.module.laboratoryapp.page.controller;
 
-import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.module.laboratoryapp.LaboratoryConstants;
@@ -21,10 +20,6 @@ public class MainPageController {
                     UiUtils ui) {
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         sessionContext.requireAuthentication();
-        Boolean isPriviledged = Context.hasPrivilege("Access Laboratory");
-        if(!isPriviledged){
-            return "redirect: index.htm";
-        }
         model.addAttribute("date", new Date());
         return null;
     }

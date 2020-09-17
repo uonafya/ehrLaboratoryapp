@@ -17,6 +17,8 @@ import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
+import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.openmrs.module.laboratoryapp.LaboratoryConstants;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.LaboratoryUtil;
 import org.openmrs.module.laboratoryapp.util.TestModel;
@@ -26,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@AppPage(LaboratoryConstants.APP_LABORATORY_APP)
 public class ReportExportPageController {
 
 	private static Logger logger = LoggerFactory.getLogger(ReportExportPageController.class);

@@ -17,8 +17,6 @@ public class LaboratoryMetadata extends AbstractMetadataBundle {
 
     public static class _Privilege {
 
-        public static final String APP_LAB_MODULE_APP_PRIV = "Access Laboratory";
-
         public static final String APP_LABORATORY_APP = "App: laboratoryapp";
     }
 
@@ -32,10 +30,10 @@ public class LaboratoryMetadata extends AbstractMetadataBundle {
      */
     @Override
     public void install() {
-        install(privilege(_Privilege.APP_LAB_MODULE_APP_PRIV, "Able to access Key Laboratory  module features"));
+        install(privilege(_Privilege.APP_LABORATORY_APP, "Able to access Key Laboratory  module features"));
         install(privilege(_Privilege.APP_LABORATORY_APP, "Able to access the laboratory app"));
         install(role(_Role.APPLICATION_LAB_MODULE, "Can access lab module Application",
                 idSet(org.openmrs.module.kenyaemr.metadata.SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
-                idSet(_Privilege.APP_LAB_MODULE_APP_PRIV)));
+                idSet(_Privilege.APP_LABORATORY_APP)));
     }
 }

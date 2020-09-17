@@ -8,12 +8,15 @@ import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.model.Lab;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
+import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.openmrs.module.laboratoryapp.LaboratoryConstants;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.ui.framework.page.PageRequest;
 
 
+@AppPage(LaboratoryConstants.APP_LABORATORY_APP)
 public class QueuePageController {
 
 	public String get(UiSessionContext sessionContext,
@@ -22,10 +25,6 @@ public class QueuePageController {
 					UiUtils ui) {
 		pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
 		sessionContext.requireAuthentication();
-		Boolean isPriviledged = Context.hasPrivilege("Access Laboratory");
-		if(!isPriviledged){
-			return "redirect: index.htm";
-		}
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String dateStr = sdf.format(new Date());
 		model.addAttribute("currentDate", dateStr);
