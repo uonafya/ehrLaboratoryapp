@@ -8,6 +8,7 @@ import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.module.laboratoryapp.LaboratoryConstants;
+import org.openmrs.module.laboratoryapp.ReferenceApplicationWebConstants;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.TestResultModel;
 import org.openmrs.ui.framework.SimpleObject;

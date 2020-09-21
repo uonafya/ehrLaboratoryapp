@@ -1,4 +1,4 @@
-package org.openmrs.module.laboratoryapp.page.controller;
+package org.openmrs.module.laboratoryapp;
 
 
 public class ReferenceApplicationWebConstants {

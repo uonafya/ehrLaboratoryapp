@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 
 /**
- * Created by ngarivictor on 2/24/2016.
+ *
  */
 public class FunctionalStatusFragmentController {
     public void controller() {
