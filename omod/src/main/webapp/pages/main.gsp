@@ -1,7 +1,6 @@
- <% 
-	ui.decorateWith("appui", "standardEmrPage", [title: "Laboratory Dashboard"])
+ <%
+	 ui.decorateWith("kenyaemr", "standardPage")
 	ui.includeJavascript("laboratoryapp", "jQuery.print.js")
-	ui.includeJavascript("ehrconfigs", "jquery-1.12.4.min.js")
 	ui.includeJavascript("ehrconfigs", "jquery-ui-1.9.2.custom.min.js")
 	ui.includeJavascript("ehrconfigs", "underscore-min.js")
 	ui.includeJavascript("ehrconfigs", "knockout-3.4.0.js")
@@ -318,7 +317,7 @@
 		<div class="example">
 			<ul id="breadcrumbs">
 				<li>
-					<a href="${ui.pageLink('referenceapplication','home')}">
+					<a href="${ui.pageLink('kenyaemr','userHome')}">
 						<i class="icon-home small"></i></a>
 				</li>
 				

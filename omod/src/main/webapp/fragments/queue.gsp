@@ -61,7 +61,7 @@
 	});
 
 	jq(function(){
-		rescheduleDialog = emr.setupConfirmationDialog({
+		rescheduleDialog = ui.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true
