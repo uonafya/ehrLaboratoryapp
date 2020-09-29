@@ -24,7 +24,7 @@ ui.includeCss("ehrconfigs", "referenceapplication.css")
     jq(function(){
         ko.applyBindings(editResultsParameterOpts, jq("#edit-result-form")[0]);
 		
-		editResultsDialog = emr.setupConfirmationDialog({
+		editResultsDialog = ui.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true
@@ -96,7 +96,7 @@ ui.includeCss("ehrconfigs", "referenceapplication.css")
     }
 
     function loadPatientReport(patientId, testId){
-        window.location = emr.pageLink("laboratoryapp", "patientReport", {patientId: patientId, testId: testId});
+        window.location = ui.pageLink("laboratoryapp", "patientReport", {patientId: patientId, testId: testId});
     }
     function Result() {
         self = this;

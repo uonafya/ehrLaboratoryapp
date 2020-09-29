@@ -40,7 +40,7 @@
 	}
 
 	jq(function(){
-		acceptDialog = emr.setupConfirmationDialog({
+		acceptDialog = ui.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true

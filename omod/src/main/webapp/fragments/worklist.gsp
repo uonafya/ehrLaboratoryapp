@@ -195,7 +195,7 @@
 		jq("#worksheet").print({
 				globalStyles: false,
 				mediaPrint: false,
-				stylesheet: '${ui.resourceLink("referenceapplication","styles/referenceapplication.css")}',
+				stylesheet: '${ui.resourceLink("ehrconfigs","styles/referenceapplication.css")}',
 				iframe: true
 		});
 	}
@@ -230,7 +230,7 @@
 				<div class="col4 last">
 					<select name="investigation" id="investigation-worklist">
 						<option value="0">Select an investigation</option>
-						<% investigations.each { investigation -> %>
+				 		<% investigations.each { investigation -> %>
 							<option value="${investigation.id}">${investigation.name.name}</option>
 						<% } %>	
 					</select>
