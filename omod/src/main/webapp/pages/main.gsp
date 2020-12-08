@@ -1,17 +1,16 @@
  <%
 	 ui.decorateWith("kenyaemr", "standardPage")
+
 	ui.includeJavascript("laboratoryapp", "jQuery.print.js")
-	ui.includeJavascript("ehrconfigs", "jquery-ui-1.9.2.custom.min.js")
-	ui.includeJavascript("ehrconfigs", "underscore-min.js")
 	ui.includeJavascript("ehrconfigs", "knockout-3.4.0.js")
 	ui.includeJavascript("ehrconfigs", "emr.js")
-	ui.includeCss("ehrconfigs", "jquery-ui-1.9.2.custom.min.css")
-	// toastmessage plugin: https://github.com/akquinet/jquery-toastmessage-plugin/wiki
-	ui.includeJavascript("ehrconfigs", "jquery.toastmessage.js")
-	ui.includeCss("ehrconfigs", "jquery.toastmessage.css")
-	// simplemodal plugin: http://www.ericmmartin.com/projects/simplemodal/
 	ui.includeJavascript("ehrconfigs", "jquery.simplemodal.1.4.4.min.js")
-	ui.includeCss("ehrconfigs", "referenceapplication.css")
+ 	ui.includeJavascript("ehrconfigs", "moment.js")
+	 ui.includeJavascript("uicommons", "datatables/jquery.dataTables.min.js")
+
+	 ui.includeCss("uicommons", "datatables/dataTables_jui.css")
+	 ui.includeCss("ehrconfigs", "onepcssgrid.css")
+	 ui.includeCss("ehrconfigs", "referenceapplication.css")
 
 %>
 
@@ -165,14 +164,14 @@
 		
 		jq('input').keydown(function (e) {
 			var key = e.keyCode || e.which;
-			if (key == 9 || key == 13) {
-				if (jq(this).attr('id') == 'search-queue-for'){
+			if (key === 9 || key === 13) {
+				if (jq(this).attr('id') === 'search-queue-for'){
 					getQueuePatients();
 				}
-				else if (jq(this).attr('id') == 'search-worklist-for'){
+				else if (jq(this).attr('id') === 'search-worklist-for'){
 					getWorklists();
 				}
-				else if (jq(this).attr('id') == 'search-results-for'){
+				else if (jq(this).attr('id') === 'search-results-for'){
 					getResults();
 				}
 			}

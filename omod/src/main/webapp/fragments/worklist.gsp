@@ -14,7 +14,7 @@
 		orderIdd = jq("#order");
 		ko.applyBindings(parameterOpts, jq("#result-form")[0]);
 		
-		resultDialog = ui.setupConfirmationDialog({
+		resultDialog = emr.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true
@@ -38,7 +38,7 @@
 	});
 	
 	jq(function(){
-		reorderDialog = ui.setupConfirmationDialog({
+		reorderDialog = emr.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true

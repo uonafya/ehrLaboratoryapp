@@ -37,8 +37,9 @@ public class QueueFragmentController {
 		model.addAttribute("currentDate", dateStr);
 		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
 		Lab department = ls.getCurrentDepartment();
+		System.out.println("The departiments are >>"+department);
 		Set<Concept> investigations = new HashSet<Concept>();
-		if(department!=null){
+		if(department !=null){
 			investigations = department.getInvestigationsToDisplay();
 		}
 		model.addAttribute("investigations", investigations);

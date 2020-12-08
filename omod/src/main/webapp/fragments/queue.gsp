@@ -40,7 +40,7 @@
 	}
 
 	jq(function(){
-		acceptDialog = ui.setupConfirmationDialog({
+		acceptDialog = emr.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true
@@ -61,7 +61,7 @@
 	});
 
 	jq(function(){
-		rescheduleDialog = ui.setupConfirmationDialog({
+		rescheduleDialog = emr.setupConfirmationDialog({
 			dialogOpts: {
 				overlayClose: false,
 				close: true
