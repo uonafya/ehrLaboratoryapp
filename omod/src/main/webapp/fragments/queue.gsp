@@ -25,7 +25,7 @@
 			function (data) {
 				if (data.status === "success") {
 					var acceptedTest = ko.utils.arrayFirst(queueData.tests(), function(item) {
-						return item.orderId == orderId.val();
+						return item.orderId === orderId.val();
 					});
 					queueData.tests.remove(acceptedTest);
 					acceptedTest.status = "accepted";

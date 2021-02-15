@@ -37,10 +37,9 @@ public class QueueFragmentController {
 		model.addAttribute("currentDate", dateStr);
 		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
 		Lab department = ls.getCurrentDepartment();
-		System.out.println("The departiments are >>"+department);
 		Set<Concept> investigations = new HashSet<Concept>();
 		if(department !=null){
-			investigations = department.getInvestigationsToDisplay();
+			investigations.addAll(department.getInvestigationsToDisplay());
 		}
 		model.addAttribute("investigations", investigations);
 	}
@@ -73,6 +72,7 @@ public class QueueFragmentController {
 					currentPage);
 			List<TestModel> tests = LaboratoryUtil.generateModelsFromOrders(
 					orders, testTreeMap);
+
 			simpleObjects = SimpleObject.fromCollection(tests, ui, "startDate", "patientIdentifier", "patientName", "gender", "age", "test.name", "orderId", "sampleId", "status");
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class QueueFragmentController {
 					simpleObjectElements.add("error");
 					if (acceptedTestId.equals(LaboratoryConstants.ACCEPT_TEST_RETURN_ERROR_EXISTING_SAMPLEID)) {
 						simpleObjectElements.add("Existing sample id found");
-					} else if (acceptedTestId == LaboratoryConstants.ACCEPT_TEST_RETURN_ERROR_EXISTING_TEST) {
+					} else if (acceptedTestId.equals(LaboratoryConstants.ACCEPT_TEST_RETURN_ERROR_EXISTING_TEST)) {
 						simpleObjectElements.add("Existing accepted test found");
 					}
 					return SimpleObject.create(simpleObjectElements);

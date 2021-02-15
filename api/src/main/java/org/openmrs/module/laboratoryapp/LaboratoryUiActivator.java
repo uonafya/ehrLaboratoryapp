@@ -17,6 +17,7 @@ package org.openmrs.module.laboratoryapp;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.ModuleActivator;
+import org.openmrs.module.laboratoryapp.metadata.SetupLabAppTestsMetadata;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -50,6 +51,8 @@ public class LaboratoryUiActivator implements ModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
+		//fire up all the investigations required
+		//SetupLabAppTestsMetadata.getAllInvestigationsSaved();
 		log.info("Laboratory Module App started");
 	}
 	

@@ -39,22 +39,22 @@
 		});
 		
 		jq("#inline-tabs li").click(function() {
-			if (jq(this).attr("aria-controls") == "queue"){
+			if (jq(this).attr("aria-controls") === "queue"){
 				jq('#refresh a').html('<i class="icon-refresh"></i> Get Patients');
 				getQueuePatients(false);
 			}
-			else if (jq(this).attr("aria-controls") == "worklist"){
+			else if (jq(this).attr("aria-controls") === "worklist"){
 				jq('#refresh a').html('<i class="icon-refresh"></i> Get Worklist');
 				getWorklists(false);
 			}
-			else if (jq(this).attr("aria-controls") == "results"){
+			else if (jq(this).attr("aria-controls") === "results"){
 				jq('#refresh a').html('<i class="icon-refresh"></i> Get Results');
 				getResults(false);
 			}
-			else if (jq(this).attr("aria-controls") == "status"){
+			else if (jq(this).attr("aria-controls") === "status"){
 				jq('#refresh a').html('<i class="icon-refresh"></i> Get Functional Status');
 			}
-			else if (jq(this).attr("aria-controls") == "tests"){
+			else if (jq(this).attr("aria-controls") === "tests"){
 				jq('#refresh a').html('<i class="icon-refresh"></i> Get Test Orders');
 			}
         });

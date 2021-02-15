@@ -33,7 +33,7 @@
 	</modules>
 	
 	<properties>
-		<openMRSVersion>1.9.8</openMRSVersion>
+		<openMRSVersion>1.12.0</openMRSVersion>
 		<hospitalcoreVersion>1.0.0-SNAPSHOT</hospitalcoreVersion>
 		<kenyacoreVersion>2.4.1</kenyacoreVersion>
 		<kenyauiVersion>2.1.1</kenyauiVersion>

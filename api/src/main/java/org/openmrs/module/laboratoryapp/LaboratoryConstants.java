@@ -9,6 +9,9 @@
  */
 package org.openmrs.module.laboratoryapp;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class LaboratoryConstants {
 
     /**
@@ -17,4 +20,21 @@ public class LaboratoryConstants {
     public static final String MODULE_ID = "laboratoryapp";
 
     public static final String APP_LABORATORY_APP = MODULE_ID + ".laboratory";
+
+    //Investigations
+    public static String SEROLOGY = "SEROLOGY";
+    public static String BIOCHEMISTRY = "BIOCHEMISTRY";
+
+    //confidential investigations
+    public static String TEST = "SEROLOGY";
+    public static String TEST1 = "BIOCHEMISTRY";
+
+
+    public static List<String> allInvestigations() {
+        return Arrays.asList(SEROLOGY, BIOCHEMISTRY);
+    }
+
+    public static List<String> allConfidentialInvestigations() {
+        return Arrays.asList(TEST, TEST1);
+    }
 }

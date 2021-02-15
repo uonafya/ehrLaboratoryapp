@@ -20,6 +20,21 @@
 
 package org.openmrs.module.laboratoryapp.util;
 
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
+import org.openmrs.ConceptNumeric;
+import org.openmrs.ConceptSet;
+import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.ehrlaboratory.LaboratoryService;
+import org.openmrs.module.hospitalcore.concept.TestTree;
+import org.openmrs.module.hospitalcore.model.Lab;
+import org.openmrs.module.hospitalcore.model.LabTest;
+import org.openmrs.module.hospitalcore.util.PatientUtils;
+import org.springframework.ui.Model;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,22 +46,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import org.openmrs.Concept;
-import org.openmrs.ConceptAnswer;
-import org.openmrs.ConceptNumeric;
-import org.openmrs.ConceptSet;
-import org.openmrs.ConceptWord;
-import org.openmrs.Encounter;
-import org.openmrs.Obs;
-import org.openmrs.Order;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.hospitalcore.concept.TestTree;
-import org.openmrs.module.hospitalcore.model.Lab;
-import org.openmrs.module.hospitalcore.model.LabTest;
-import org.openmrs.module.hospitalcore.util.PatientUtils;
-import org.openmrs.module.ehrlaboratory.LaboratoryService;
-import org.springframework.ui.Model;
 
 public class LaboratoryUtil {
 
@@ -133,7 +132,7 @@ public class LaboratoryUtil {
 				//ghanshyam 7-august-2013 code review bug
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				TestModel tm = new TestModel();
-				tm.setStartDate(sdf.format(order.getStartDate()));
+				tm.setStartDate(sdf.format(order.getDateActivated()));
 				tm.setPatientId(order.getPatient().getPatientId());
 				tm.setPatientIdentifier(order.getPatient()
 						.getPatientIdentifier().getIdentifier());
@@ -314,7 +313,7 @@ public class LaboratoryUtil {
 		//ghanshyam 7-august-2013 code review bug
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		TestModel tm = new TestModel();
-		tm.setStartDate(sdf.format(order.getStartDate()));
+		tm.setStartDate(sdf.format(order.getDateActivated()));
 		tm.setPatientId(order.getPatient().getPatientId());
 		tm.setPatientIdentifier(order.getPatient().getPatientIdentifier()
 				.getIdentifier());
@@ -401,10 +400,10 @@ public class LaboratoryUtil {
 		if (concept != null) {
 			return concept;
 		} else {
-			List<ConceptWord> cws = Context.getConceptService().findConcepts(
+			List<Concept> cws = Context.getConceptService().getConceptsByName(
 					name, new Locale("en"), false);
 			if (!cws.isEmpty())
-				return cws.get(0).getConcept();
+				return cws.get(0);
 		}
 		return null;
 	}

@@ -31,6 +31,14 @@
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>uilibrary-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>ehrlaboratory-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>hospitalcore-api</artifactId>
+		</dependency>
 
 		<!-- Begin OpenMRS core -->
 		

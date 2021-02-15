@@ -36,8 +36,8 @@ public class PatientReportPageController {
             PageModel model,
             UiUtils ui,
             PageRequest pageRequest){
-        pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
-        sessionContext.requireAuthentication();
+        //pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
+        //sessionContext.requireAuthentication();
 
         Patient patient = Context.getPatientService().getPatient(patientId);
         HospitalCoreService hcs = Context.getService(HospitalCoreService.class);
@@ -47,14 +47,14 @@ public class PatientReportPageController {
         model.addAttribute("age", patient.getAge());
         model.addAttribute("gender" , patient.getGender());
         model.addAttribute("name", patient.getNames());
-        model.addAttribute("category", patient.getAttribute(14)); //uuid 09cd268a-f0f5-11ea-99a8-b3467ddbf779
+        model.addAttribute("category", patient.getAttribute(Context.getPersonService().getPersonAttributeTypeByUuid("09cd268a-f0f5-11ea-99a8-b3467ddbf779"))); //uuid 09cd268a-f0f5-11ea-99a8-b3467ddbf779
         model.addAttribute("previousVisit",hcs.getLastVisitTime(patient));
 
-        if (patient.getAttribute(43) == null){
+        if (patient.getAttribute(Context.getPersonService().getPersonAttributeTypeByUuid("858781dc-282f-11eb-8741-8ff5ddd45b7c")) == null){
             model.addAttribute("fileNumber", "");
         }
-        else if (StringUtils.isNotBlank(patient.getAttribute(43).getValue())){ // uuid 09cd268a-f0f5-11ea-99a8-b3467ddbf779
-            model.addAttribute("fileNumber", "(File: "+patient.getAttribute(43)+")");
+        else if (StringUtils.isNotBlank(patient.getAttribute(Context.getPersonService().getPersonAttributeTypeByUuid("858781dc-282f-11eb-8741-8ff5ddd45b7c")).getValue())){ // uuid 858781dc-282f-11eb-8741-8ff5ddd45b7c
+            model.addAttribute("fileNumber", "(File: "+patient.getAttribute(Context.getPersonService().getPersonAttributeTypeByUuid("858781dc-282f-11eb-8741-8ff5ddd45b7c"))+")");
         }
         else {
             model.addAttribute("fileNumber", "");
@@ -75,7 +75,7 @@ public class PatientReportPageController {
                         "unit", "level", "concept", "encounterId", "testId");
                 SimpleObject currentResults = SimpleObject.create("data", results);
                 model.addAttribute("currentResults", currentResults);
-                model.addAttribute("test", ui.formatDatePretty(labTest.getOrder().getStartDate()));
+                model.addAttribute("test", ui.formatDatePretty(labTest.getOrder().getDateActivated()));
             }
         }
         return null;

@@ -78,8 +78,8 @@ public class ResultFragmentController {
 		
 		//TODO get date from user
 		Order order = test.getOrder();
-		order.setDiscontinued(true);
-		order.setDiscontinuedDate(new Date());
+		//order.setda(true);
+		order.setAutoExpireDate(new Date());
 		
 		for (ResultModel resultModel : resultWrapper.getResults()) {
 			String result = resultModel.getSelectedOption() == null ? resultModel.getValue() : resultModel.getSelectedOption();
