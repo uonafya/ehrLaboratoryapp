@@ -16,6 +16,7 @@ import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueueLog;
 import org.openmrs.module.hospitalcore.util.GlobalPropertyUtil;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.laboratoryapp.util.LaboratoryUtil;
 import org.openmrs.module.laboratoryapp.util.ParameterModel;
 import org.openmrs.module.laboratoryapp.util.ParameterOption;
@@ -75,9 +76,11 @@ public class ResultFragmentController {
 		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(resultWrapper.getTestId());
 		Encounter encounter = getEncounter(test);
+		System.out.println("The encounter found from the lab is >>>"+encounter);
 		
 		//TODO get date from user
 		Order order = test.getOrder();
+		System.out.println("The order gotten is >>>"+order);
 		//order.setda(true);
 		order.setAutoExpireDate(new Date());
 		
@@ -97,6 +100,7 @@ public class ResultFragmentController {
 				Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
 				addLaboratoryTestObservation(encounter, concept, null, result, test);
 			}
+			System.out.println("Results model has the following information>>"+resultModel);
 		}
 		
 		encounter = Context.getEncounterService().saveEncounter(encounter);
@@ -122,7 +126,7 @@ public class ResultFragmentController {
 		encounter.setDateCreated(new Date());
 
 		//TODO: Use location from session
-		Location loc = Context.getLocationService().getLocation(1);
+		Location loc = Context.getService(KenyaEmrService.class).getDefaultLocation();
 		encounter.setLocation(loc);
 		encounter.setPatient(test.getPatient());
 		encounter.setEncounterType(encounterType);
@@ -180,6 +184,7 @@ public class ResultFragmentController {
 			String result, LabTest test) {
 		log.warn("testConceptId=" + testConcept);
 		log.warn("testGroupConceptId=" + testGroupConcept);
+		System.out.println("Got into the addding lab test obseravtion with testConceptId as>>"+testConcept+" and testGroupConceptId as >>"+testGroupConcept);
 		Obs obs = getObs(encounter, testConcept, testGroupConcept);
 		setObsAttributes(obs, encounter);
 		obs.setConcept(testConcept);
