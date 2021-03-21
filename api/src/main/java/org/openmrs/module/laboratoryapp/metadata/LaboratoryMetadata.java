@@ -17,12 +17,12 @@ public class LaboratoryMetadata extends AbstractMetadataBundle {
 
     public static class _Privilege {
 
-        public static final String APP_LABORATORY_APP = "App: laboratoryapp.laboratory";
+        public static final String APP_LABORATORY_APP = "App: laboratoryapp.ehrlaboratory";
     }
 
     public static final class _Role {
 
-        public static final String APPLICATION_LAB_MODULE = "Laboratory";
+        public static final String APPLICATION_LAB_MODULE = "EHR Laboratory";
     }
 
     /**

@@ -20,7 +20,7 @@
 	<!-- Add here beans related to the API context -->
 
 	<bean id="laboratoryapp.app.laboratoryapp" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
-		<constructor-arg value="laboratoryapp.laboratory" />
+		<constructor-arg value="laboratoryapp.ehrlaboratory" />
 		<constructor-arg value="Labaratory" />
 		<constructor-arg value="laboratoryapp/main.page" />
 		<constructor-arg value="laboratoryapp:apps/lab.png" />

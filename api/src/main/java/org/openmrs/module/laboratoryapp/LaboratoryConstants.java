@@ -19,7 +19,7 @@ public class LaboratoryConstants {
      */
     public static final String MODULE_ID = "laboratoryapp";
 
-    public static final String APP_LABORATORY_APP = MODULE_ID + ".laboratory";
+    public static final String APP_LABORATORY_APP = MODULE_ID + ".ehrlaboratory";
 
     //Investigations
     public static String SEROLOGY = "SEROLOGY";
