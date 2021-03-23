@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResultFragmentController {
-	private static final Integer LAB_CONCEPT_ID = 2548;
+	private static final Integer LAB_CONCEPT_ID = 1283;
 	private Logger log = LoggerFactory.getLogger(ResultFragmentController.class);
 
 	public List<SimpleObject> getResultTemplate(@RequestParam("testId") Integer testId, UiUtils ui) {
@@ -76,9 +76,11 @@ public class ResultFragmentController {
 		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(resultWrapper.getTestId());
 		Encounter encounter = getEncounter(test);
+		System.out.println("The encounter found from the lab is >>>"+encounter);
 		
 		//TODO get date from user
 		Order order = test.getOrder();
+		System.out.println("The order gotten is >>>"+order);
 		//order.setda(true);
 		order.setAutoExpireDate(new Date());
 		
@@ -98,6 +100,7 @@ public class ResultFragmentController {
 				Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
 				addLaboratoryTestObservation(encounter, concept, null, result, test);
 			}
+			System.out.println("Results model has the following information>>"+resultModel);
 		}
 		
 		encounter = Context.getEncounterService().saveEncounter(encounter);

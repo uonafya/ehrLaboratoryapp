@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    var dataTable;
+    var dTbl;
     var billableServices;
     var serviceIds = [];
     jQuery(document).ready(function() {
@@ -11,13 +11,8 @@
                 serviceIds.push(jq(this).val());
             }
         });
-		
-		jq('#filter-status').on('keyup',function(){
-			var searchPhrase = jq(this).val();
-            dataTable.search(searchPhrase).draw();
-		});
 
-        dataTable=jQuery('#functionalStatus').DataTable({
+        dTbl=jq('#functionalStatus').DataTable({
             searching: true,
             lengthChange: false,
             pageLength: 15,
@@ -35,13 +30,48 @@
                 }
             }
         });
-		dataTable.on( 'order.dt search.dt', function () {
-			dataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-				cell.innerHTML = i+1;
-			} );
-		} );
 
-        getBillableServices();
+        // getBillableServices();
+        jq.ajax({
+            type: "GET",
+            url: "${ui.actionLink('laboratoryapp','functionalStatus','getBillableServices')}",
+            dataType: "json",
+            success: function (data) {
+                billableServices = data
+
+                var dataRows = [];
+
+                _.each(billableServices, function(billableService, indx) {
+                    var isChecked = (billableService.disable === true) ?"checked=checked":"";
+                    dataRows.push(
+                        [
+                            indx+1,
+                            billableService.name,
+                            '<input type="checkbox" class="service-status" '+ isChecked + '" value="'+ billableService.serviceId +'">'
+                        ]
+                    )
+                });
+
+                dTbl.rows.add(dataRows).draw();
+                // dTbl.draw();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr);
+                jQuery("#ajaxLoader").hide();
+            }
+        });
+
+        dTbl.on( 'order.dt search.dt', function () {
+            dTbl.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } );
+
+        jq('#filter-status').on('keyup',function(){
+            var searchPhrase = jq(this).val();
+            dTbl.search(searchPhrase).draw();
+        });
+        // getBillableServices();
 
         jQuery('#functionalStatus tbody').on("click", function(){
             jq('#submitSave').on("click", function(){
@@ -64,30 +94,6 @@
 
     });
 
-    function getBillableServices() {
-        jQuery.ajax({
-            type: "GET",
-            url: "${ui.actionLink('laboratoryapp','functionalStatus','getBillableServices')}",
-            dataType: "json",
-            success: function (data) {
-                billableServices = data
-
-               var dataRows = [];
-
-                _.each(billableServices, function(billableService) {
-                    var isChecked = (billableService.disable === true) ?"checked=checked":"";
-                    dataRows.push([0, billableService.name, '<input type="checkbox" class="service-status" '+ isChecked + '" value="'+ billableService.serviceId +'">'])
-                });
-
-                dataTable.rows.add(dataRows);
-                dataTable.draw();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr);
-                jQuery("#ajaxLoader").hide();
-            }
-        });
-    }
 
 </script>
 

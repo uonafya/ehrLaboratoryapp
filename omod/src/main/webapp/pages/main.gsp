@@ -6,9 +6,9 @@
 	ui.includeJavascript("ehrconfigs", "emr.js")
 	ui.includeJavascript("ehrconfigs", "jquery.simplemodal.1.4.4.min.js")
  	ui.includeJavascript("ehrconfigs", "moment.js")
-	 ui.includeJavascript("uicommons", "datatables/jquery.dataTables.min.js")
+	 ui.includeJavascript("ehrconfigs", "jquery.dataTables.min.js")
 
-	 ui.includeCss("uicommons", "datatables/dataTables_jui.css")
+	 ui.includeCss("ehrconfigs", "jquery.dataTables.min.css")
 	 ui.includeCss("ehrconfigs", "onepcssgrid.css")
 	 ui.includeCss("ehrconfigs", "referenceapplication.css")
 
