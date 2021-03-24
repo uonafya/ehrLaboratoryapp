@@ -1,5 +1,9 @@
 package org.openmrs.module.laboratoryapp.fragment.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -8,9 +12,9 @@ import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
-import org.openmrs.module.hospitalcore.BillingConstants;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.LabTest;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
@@ -29,23 +33,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 public class ResultFragmentController {
-	private static final Integer LAB_CONCEPT_ID = 1283;
+	private static final Integer LAB_CONCEPT_ID = Integer.valueOf(1283);
+
 	private Logger log = LoggerFactory.getLogger(ResultFragmentController.class);
 
 	public List<SimpleObject> getResultTemplate(@RequestParam("testId") Integer testId, UiUtils ui) {
-		LaboratoryService ls = Context.getService(LaboratoryService.class);
-		LabTest test = ls.getLaboratoryTest(testId);		
+		LaboratoryService ls = (LaboratoryService)Context.getService(LaboratoryService.class);
+		LabTest test = ls.getLaboratoryTest(testId);
 		List<ParameterModel> parameters = new ArrayList<ParameterModel>();
 		LaboratoryUtil.generateParameterModels(parameters, test.getConcept(), null, test.getEncounter());
-
-		//Collections.sort(parameters);
-
 		List<SimpleObject> resultsTemplate = new ArrayList<SimpleObject>();
 		for (ParameterModel parameter : parameters) {
 			SimpleObject resultTemplate = new SimpleObject();
@@ -67,70 +64,57 @@ public class ResultFragmentController {
 			resultTemplate.put("options", options);
 			resultsTemplate.add(resultTemplate);
 		}
-		
 		return resultsTemplate;
 	}
-	
-	public SimpleObject saveResult(
-			@BindParams("wrap") ResultModelWrapper resultWrapper){
-		LaboratoryService ls = (LaboratoryService) Context.getService(LaboratoryService.class);
+
+	public SimpleObject saveResult(@BindParams("wrap") ResultModelWrapper resultWrapper) {
+		LaboratoryService ls = (LaboratoryService)Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(resultWrapper.getTestId());
 		Encounter encounter = getEncounter(test);
-		System.out.println("The encounter found from the lab is >>>"+encounter);
-		
-		//TODO get date from user
+		Encounter reviseEncounter = new Encounter();
+		reviseEncounter.setLocation(((KenyaEmrService)Context.getService(KenyaEmrService.class)).getDefaultLocation());
+		reviseEncounter.setProvider(Context.getAuthenticatedUser());
 		Order order = test.getOrder();
-		System.out.println("The order gotten is >>>"+order);
-		//order.setda(true);
-		order.setAutoExpireDate(new Date());
-		
+		Order revisedOrder = new Order();
+		revisedOrder = order.cloneForRevision();
+		revisedOrder.setAction(Order.Action.REVISE);
+		revisedOrder.setEncounter(reviseEncounter);
+		revisedOrder.setOrderer(order.getOrderer());
+		revisedOrder.setChangedBy(Context.getAuthenticatedUser());
 		for (ResultModel resultModel : resultWrapper.getResults()) {
-			String result = resultModel.getSelectedOption() == null ? resultModel.getValue() : resultModel.getSelectedOption();
-
-			if (StringUtils.isBlank(result)){
+			String result = (resultModel.getSelectedOption() == null) ? resultModel.getValue() : resultModel.getSelectedOption();
+			if (StringUtils.isBlank(result))
 				continue;
-			}
-
 			if (StringUtils.contains(resultModel.getConceptName(), ".")) {
 				String[] parentChildConceptIds = StringUtils.split(resultModel.getConceptName(), ".");
 				Concept testGroupConcept = Context.getConceptService().getConcept(parentChildConceptIds[0]);
 				Concept testConcept = Context.getConceptService().getConcept(parentChildConceptIds[1]);
 				addLaboratoryTestObservation(encounter, testConcept, testGroupConcept, result, test);
-			} else {
-				Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
-				addLaboratoryTestObservation(encounter, concept, null, result, test);
+				continue;
 			}
-			System.out.println("Results model has the following information>>"+resultModel);
+			Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
+			addLaboratoryTestObservation(encounter, concept, null, result, test);
 		}
-		
 		encounter = Context.getEncounterService().saveEncounter(encounter);
-		
 		test.setEncounter(encounter);
 		test = ls.saveLaboratoryTest(test);
-		ls.completeTest(test);
-
-		this.sendPatientToOpdQueue(encounter);
-
-		return SimpleObject.create("status", "success", "message", "Saved!");
+		sendPatientToOpdQueue(encounter);
+		return SimpleObject.create(new Object[] { "status", "success", "message", "Saved!" });
 	}
 
 	private Encounter getEncounter(LabTest test) {
-		if (test.getEncounter() != null) {
+		if (test.getEncounter() != null)
 			return test.getEncounter();
-		}
-		//TODO: define constant in this module and use that
-		String encounterTypeStr = GlobalPropertyUtil.getString(BillingConstants.GLOBAL_PROPRETY_LAB_ENCOUNTER_TYPE, "LABENCOUNTER");
+		String encounterTypeStr = GlobalPropertyUtil.getString("billing.labEncounterType", "LABENCOUNTER");
 		EncounterType encounterType = Context.getEncounterService().getEncounterType(encounterTypeStr);
 		Encounter encounter = new Encounter();
 		encounter.setCreator(Context.getAuthenticatedUser());
 		encounter.setDateCreated(new Date());
-
-		//TODO: Use location from session
-		Location loc = Context.getService(KenyaEmrService.class).getDefaultLocation();
+		Location loc = ((KenyaEmrService)Context.getService(KenyaEmrService.class)).getDefaultLocation();
 		encounter.setLocation(loc);
 		encounter.setPatient(test.getPatient());
 		encounter.setEncounterType(encounterType);
-		encounter.setVoided(false);
+		encounter.setVoided(Boolean.valueOf(false));
 		encounter.setCreator(Context.getAuthenticatedUser());
 		encounter.setUuid(UUID.randomUUID().toString());
 		encounter.setEncounterDatetime(new Date());
@@ -139,20 +123,17 @@ public class ResultFragmentController {
 
 	private void sendPatientToOpdQueue(Encounter encounter) {
 		Patient patient = encounter.getPatient();
-		PatientQueueService queueService = Context.getService(PatientQueueService.class);
+		PatientQueueService queueService = (PatientQueueService)Context.getService(PatientQueueService.class);
 		Concept referralConcept = Context.getConceptService().getConcept(LAB_CONCEPT_ID);
 		Encounter queueEncounter = queueService.getLastOPDEncounter(encounter.getPatient());
-		OpdPatientQueueLog patientQueueLog =queueService.getOpdPatientQueueLogByEncounter(queueEncounter);
-		if (patientQueueLog == null) {
+		OpdPatientQueueLog patientQueueLog = queueService.getOpdPatientQueueLogByEncounter(queueEncounter);
+		if (patientQueueLog == null)
 			return;
-		}
 		Concept selectedOPDConcept = patientQueueLog.getOpdConcept();
 		String selectedCategory = patientQueueLog.getCategory();
 		String visitStatus = patientQueueLog.getVisitStatus();
-
-		OpdPatientQueue patientInQueue = queueService.getOpdPatientQueue(
-				patient.getPatientIdentifier().getIdentifier(), selectedOPDConcept.getConceptId());
-
+		OpdPatientQueue patientInQueue = queueService.getOpdPatientQueue(patient
+				.getPatientIdentifier().getIdentifier(), selectedOPDConcept.getConceptId());
 		if (patientInQueue == null) {
 			patientInQueue = new OpdPatientQueue();
 			patientInQueue.setUser(Context.getAuthenticatedUser());
@@ -163,12 +144,11 @@ public class ResultFragmentController {
 			patientInQueue.setOpdConcept(selectedOPDConcept);
 			patientInQueue.setTriageDataId(patientQueueLog.getTriageDataId());
 			patientInQueue.setOpdConceptName(selectedOPDConcept.getName().getName());
-			if(null!=patient.getMiddleName()) {
+			if (null != patient.getMiddleName()) {
 				patientInQueue.setPatientName(patient.getGivenName() + " " + patient.getFamilyName() + " " + patient.getMiddleName());
 			} else {
 				patientInQueue.setPatientName(patient.getGivenName() + " " + patient.getFamilyName());
 			}
-
 			patientInQueue.setReferralConcept(referralConcept);
 			patientInQueue.setSex(patient.getGender());
 			patientInQueue.setCategory(selectedCategory);
@@ -179,22 +159,20 @@ public class ResultFragmentController {
 			queueService.saveOpdPatientQueue(patientInQueue);
 		}
 	}
-	
-	private void addLaboratoryTestObservation(Encounter encounter, Concept testConcept, Concept testGroupConcept,
-			String result, LabTest test) {
-		log.warn("testConceptId=" + testConcept);
-		log.warn("testGroupConceptId=" + testGroupConcept);
-		System.out.println("Got into the addding lab test obseravtion with testConceptId as>>"+testConcept+" and testGroupConceptId as >>"+testGroupConcept);
+
+	private void addLaboratoryTestObservation(Encounter encounter, Concept testConcept, Concept testGroupConcept, String result, LabTest test) {
+		this.log.warn("testConceptId=" + testConcept);
+		this.log.warn("testGroupConceptId=" + testGroupConcept);
+		System.out.println("Got into the addding lab test obseravtion with testConceptId as>>" + testConcept + " and testGroupConceptId as >>" + testGroupConcept);
 		Obs obs = getObs(encounter, testConcept, testGroupConcept);
 		setObsAttributes(obs, encounter);
 		obs.setConcept(testConcept);
 		obs.setOrder(test.getOrder());
 		if (testConcept.getDatatype().getName().equalsIgnoreCase("Text")) {
 			obs.setValueText(result);
-		} else if ( testConcept.getDatatype().getName().equalsIgnoreCase("Numeric")){
-			if (StringUtils.isNotBlank(result)){
-				obs.setValueNumeric(Double.parseDouble(result));
-			}
+		} else if (testConcept.getDatatype().getName().equalsIgnoreCase("Numeric")) {
+			if (StringUtils.isNotBlank(result))
+				obs.setValueNumeric(Double.valueOf(Double.parseDouble(result)));
 		} else if (testConcept.getDatatype().getName().equalsIgnoreCase("Coded")) {
 			Concept answerConcept = LaboratoryUtil.searchConcept(result);
 			obs.setValueCoded(answerConcept);
@@ -202,23 +180,22 @@ public class ResultFragmentController {
 		if (testGroupConcept != null) {
 			Obs testGroupObs = getObs(encounter, testGroupConcept, null);
 			if (testGroupObs.getConcept() == null) {
-				//TODO find out what valueGroupId is and set to testGroupObs if necessary
 				testGroupObs.setConcept(testGroupConcept);
 				testGroupObs.setOrder(test.getOrder());
 				setObsAttributes(testGroupObs, encounter);
 				encounter.addObs(testGroupObs);
 			}
-			log.warn("Adding obs[concept="+ obs.getConcept() +",uuid="+ obs.getUuid() +"] to obsgroup[concept="+ testGroupObs.getConcept() +", uuid="+ testGroupObs.getUuid() +"]");
+			this.log.warn("Adding obs[concept=" + obs.getConcept() + ",uuid=" + obs.getUuid() + "] to obsgroup[concept=" + testGroupObs.getConcept() + ", uuid=" + testGroupObs.getUuid() + "]");
 			testGroupObs.addGroupMember(obs);
 		} else {
 			encounter.addObs(obs);
 		}
-		log.warn("Obs size is: " + encounter.getObs().size());
+		this.log.warn("Obs size is: " + encounter.getObs().size());
 	}
 
 	private void setObsAttributes(Obs obs, Encounter encounter) {
 		obs.setObsDatetime(encounter.getEncounterDatetime());
-		obs.setPerson(encounter.getPatient());
+		obs.setPerson((Person)encounter.getPatient());
 		obs.setLocation(encounter.getLocation());
 		obs.setEncounter(encounter);
 	}
@@ -227,18 +204,16 @@ public class ResultFragmentController {
 		for (Obs obs : encounter.getAllObs()) {
 			if (groupingConcept != null) {
 				Obs obsGroup = getObs(encounter, groupingConcept, null);
-				if (obsGroup.getGroupMembers() != null) {
+				if (obsGroup.getGroupMembers() != null)
 					for (Obs member : obsGroup.getGroupMembers()) {
-						if (member.getConcept().equals(concept)) {
+						if (member.getConcept().equals(concept))
 							return member;
-						}
 					}
-				}
-			} else if (obs.getConcept().equals(concept)) {
-				return obs;
+				continue;
 			}
+			if (obs.getConcept().equals(concept))
+				return obs;
 		}
 		return new Obs();
 	}
 }
- 
