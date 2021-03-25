@@ -243,7 +243,7 @@
 		jq("#worksheet").print({
 			globalStyles: false,
 			mediaPrint: false,
-			stylesheet: '${ui.resourceLink("referenceapplication","styles/referenceapplication.css")}',
+			stylesheet: '${ui.resourceLink("ehrconfigs","styles/referenceapplication.css")}',
 			iframe: true
 		});
 	}
@@ -357,12 +357,11 @@
 	</div>
 
 	<div id="kotests">
-		KOTESTS
 		<ul data-bind="foreach: optts">
 			<li>
 				<h2 data-bind="text: \$data"></h2>
 				<ul data-bind="foreach: _.filter(\$root.exams(), function(exam) { return exam.containerId == \$data })">
-					<span data-bind="text: \$root.exams().container"></span>exan<br/>
+					<span data-bind="text: \$root.exams().container"></span><br/>
 				</ul>
 			</li>
 		</ul>
