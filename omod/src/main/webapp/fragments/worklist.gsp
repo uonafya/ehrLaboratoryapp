@@ -128,18 +128,6 @@
 
 			resultDialog.show();
 
-
-			var options = exam.exams().map(function(item) { return item["containerId"]; });
-			exam.optts(options.filter(function(v,i) { return options.indexOf(v) == i; }));
-
-			//ko.applyBindings(exam, jq("#kotests")[0]);
-
-			//console.log(exam.exams());
-			//console.log(exam.optts);
-
-
-
-			//
 		});
 	}
 
@@ -243,7 +231,7 @@
 		jq("#worksheet").print({
 			globalStyles: false,
 			mediaPrint: false,
-			stylesheet: '${ui.resourceLink("referenceapplication","styles/referenceapplication.css")}',
+			stylesheet: '${ui.resourceLink("ehrconfigs","styles/referenceapplication.css")}',
 			iframe: true
 		});
 	}
@@ -308,10 +296,6 @@
 	</form>
 </div>
 
-<div>
-
-
-</div>
 
 <table id="test-worklist">
 	<thead>
@@ -357,12 +341,11 @@
 	</div>
 
 	<div id="kotests">
-		KOTESTS
 		<ul data-bind="foreach: optts">
 			<li>
 				<h2 data-bind="text: \$data"></h2>
 				<ul data-bind="foreach: _.filter(\$root.exams(), function(exam) { return exam.containerId == \$data })">
-					<span data-bind="text: \$root.exams().container"></span>exan<br/>
+					<span data-bind="text: \$root.exams().container"></span><br/>
 				</ul>
 			</li>
 		</ul>
@@ -549,4 +532,3 @@
 	display: none;
 }
 </style>
-//WORKLIST DUPLICATION MERGE ISSUE
