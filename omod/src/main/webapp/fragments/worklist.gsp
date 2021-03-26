@@ -128,18 +128,6 @@
 
 			resultDialog.show();
 
-
-			var options = exam.exams().map(function(item) { return item["containerId"]; });
-			exam.optts(options.filter(function(v,i) { return options.indexOf(v) == i; }));
-
-			//ko.applyBindings(exam, jq("#kotests")[0]);
-
-			//console.log(exam.exams());
-			//console.log(exam.optts);
-
-
-
-			//
 		});
 	}
 
@@ -308,10 +296,6 @@
 	</form>
 </div>
 
-<div>
-
-
-</div>
 
 <table id="test-worklist">
 	<thead>
