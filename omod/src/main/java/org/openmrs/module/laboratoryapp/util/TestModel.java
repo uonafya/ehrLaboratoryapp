@@ -3,7 +3,7 @@
  *
  *  This file is part of Laboratory module.
  *
- *  Laboratory module is free software: you can redistribute it and/or modify
+ *  Laboratory module is free software: you can reistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -27,7 +27,7 @@ import org.openmrs.Concept;
 //ghanshyam 04/07/2012 New Requirement #277
 public class TestModel implements Comparator<TestModel>, Comparable<TestModel> {
 
-	private String startDate;
+	private String dateActivated;
 	private String patientIdentifier;
 	private Integer patientId;
 	private String patientName;
@@ -50,12 +50,12 @@ public class TestModel implements Comparator<TestModel>, Comparable<TestModel> {
 	public TestModel() {
 	}
 
-	public String getStartDate() {
-		return startDate;
+	public String getDateActivated() {
+		return dateActivated;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setDateActivated(String dateActivated) {
+		this.dateActivated = dateActivated;
 	}
 	public Integer getPatientId() {return patientId;}
 

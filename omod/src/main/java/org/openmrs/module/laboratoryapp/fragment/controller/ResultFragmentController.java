@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -39,7 +40,7 @@ public class ResultFragmentController {
 	private Logger log = LoggerFactory.getLogger(ResultFragmentController.class);
 
 	public List<SimpleObject> getResultTemplate(@RequestParam("testId") Integer testId, UiUtils ui) {
-		LaboratoryService ls = (LaboratoryService)Context.getService(LaboratoryService.class);
+		LaboratoryService ls = Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(testId);
 		List<ParameterModel> parameters = new ArrayList<ParameterModel>();
 		LaboratoryUtil.generateParameterModels(parameters, test.getConcept(), null, test.getEncounter());
@@ -68,19 +69,10 @@ public class ResultFragmentController {
 	}
 
 	public SimpleObject saveResult(@BindParams("wrap") ResultModelWrapper resultWrapper) {
-		LaboratoryService ls = (LaboratoryService)Context.getService(LaboratoryService.class);
+		LaboratoryService ls = Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(resultWrapper.getTestId());
 		Encounter encounter = getEncounter(test);
-		Encounter reviseEncounter = new Encounter();
-		reviseEncounter.setLocation(((KenyaEmrService)Context.getService(KenyaEmrService.class)).getDefaultLocation());
-		reviseEncounter.setProvider(Context.getAuthenticatedUser());
-		Order order = test.getOrder();
-		Order revisedOrder = new Order();
-		revisedOrder = order.cloneForRevision();
-		revisedOrder.setAction(Order.Action.REVISE);
-		revisedOrder.setEncounter(reviseEncounter);
-		revisedOrder.setOrderer(order.getOrderer());
-		revisedOrder.setChangedBy(Context.getAuthenticatedUser());
+
 		for (ResultModel resultModel : resultWrapper.getResults()) {
 			String result = (resultModel.getSelectedOption() == null) ? resultModel.getValue() : resultModel.getSelectedOption();
 			if (StringUtils.isBlank(result))
@@ -95,11 +87,12 @@ public class ResultFragmentController {
 			Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
 			addLaboratoryTestObservation(encounter, concept, null, result, test);
 		}
+
 		encounter = Context.getEncounterService().saveEncounter(encounter);
 		test.setEncounter(encounter);
-		test = ls.saveLaboratoryTest(test);
+		ls.completeTest(test);
 		sendPatientToOpdQueue(encounter);
-		return SimpleObject.create(new Object[] { "status", "success", "message", "Saved!" });
+		return SimpleObject.create("status", "success", "message", "Saved!");
 	}
 
 	private Encounter getEncounter(LabTest test) {
@@ -110,7 +103,7 @@ public class ResultFragmentController {
 		Encounter encounter = new Encounter();
 		encounter.setCreator(Context.getAuthenticatedUser());
 		encounter.setDateCreated(new Date());
-		Location loc = ((KenyaEmrService)Context.getService(KenyaEmrService.class)).getDefaultLocation();
+		Location loc = ((KenyaEmrService) Context.getService(KenyaEmrService.class)).getDefaultLocation();
 		encounter.setLocation(loc);
 		encounter.setPatient(test.getPatient());
 		encounter.setEncounterType(encounterType);
@@ -123,7 +116,7 @@ public class ResultFragmentController {
 
 	private void sendPatientToOpdQueue(Encounter encounter) {
 		Patient patient = encounter.getPatient();
-		PatientQueueService queueService = (PatientQueueService)Context.getService(PatientQueueService.class);
+		PatientQueueService queueService = Context.getService(PatientQueueService.class);
 		Concept referralConcept = Context.getConceptService().getConcept(LAB_CONCEPT_ID);
 		Encounter queueEncounter = queueService.getLastOPDEncounter(encounter.getPatient());
 		OpdPatientQueueLog patientQueueLog = queueService.getOpdPatientQueueLogByEncounter(queueEncounter);
@@ -163,7 +156,7 @@ public class ResultFragmentController {
 	private void addLaboratoryTestObservation(Encounter encounter, Concept testConcept, Concept testGroupConcept, String result, LabTest test) {
 		this.log.warn("testConceptId=" + testConcept);
 		this.log.warn("testGroupConceptId=" + testGroupConcept);
-		System.out.println("Got into the addding lab test obseravtion with testConceptId as>>" + testConcept + " and testGroupConceptId as >>" + testGroupConcept);
+		System.out.println("Got into the adding lab test observation with testConceptId as>>" + testConcept + " and testGroupConceptId as >>" + testGroupConcept);
 		Obs obs = getObs(encounter, testConcept, testGroupConcept);
 		setObsAttributes(obs, encounter);
 		obs.setConcept(testConcept);
@@ -195,7 +188,7 @@ public class ResultFragmentController {
 
 	private void setObsAttributes(Obs obs, Encounter encounter) {
 		obs.setObsDatetime(encounter.getEncounterDatetime());
-		obs.setPerson((Person)encounter.getPatient());
+		obs.setPerson((Person) encounter.getPatient());
 		obs.setLocation(encounter.getLocation());
 		obs.setEncounter(encounter);
 	}

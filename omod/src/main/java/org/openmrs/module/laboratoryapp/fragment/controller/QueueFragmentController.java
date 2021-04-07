@@ -29,7 +29,7 @@ import org.openmrs.module.appui.UiSessionContext;
 public class QueueFragmentController {
 
 	private static Logger logger = LoggerFactory.getLogger(QueueFragmentController.class);
-	
+
 	public void controller(UiSessionContext sessionContext, FragmentModel model) {
 		sessionContext.requireAuthentication();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -73,7 +73,7 @@ public class QueueFragmentController {
 			List<TestModel> tests = LaboratoryUtil.generateModelsFromOrders(
 					orders, testTreeMap);
 
-			simpleObjects = SimpleObject.fromCollection(tests, ui, "startDate", "patientIdentifier", "patientName", "gender", "age", "test.name", "orderId", "sampleId", "status");
+			simpleObjects = SimpleObject.fromCollection(tests, ui, "dateActivated", "patientIdentifier", "patientName", "gender", "age", "test.name", "orderId", "sampleId", "status");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			logger.error("Error when parsing order date!", e.getMessage());
@@ -116,7 +116,7 @@ public class QueueFragmentController {
 
 		return SimpleObject.create("defaultSampleId",defaultSampleId);
 	}
-	
+
 	private String getSampleId(Integer orderId){
 		Map<Concept, Set<Concept>> testTreeMap = LaboratoryTestUtil.getAllowableTests();
 		Order order = Context.getOrderService().getOrder(orderId);

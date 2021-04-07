@@ -38,7 +38,7 @@
 	var reorderDialog, reorderForm, exam;
 	var scheduleDate = jq("#reorder-date");
 	var orderIdd;
-	var details = { 'patientName' : 'Patient Name', 'startDate' : 'Start Date', 'test' : { 'name' : 'Test Name' } };
+	var details = { 'patientName' : 'Patient Name', 'dateActivated' : 'Start Date', 'test' : { 'name' : 'Test Name' } };
 	var testDetails = { details : ko.observable(details) }
 
 	jq(function(){
@@ -112,7 +112,7 @@
 		).success(function(parameterOptions){
 			parameterOpts.parameterOptions.removeAll();
 			var details = ko.utils.arrayFirst(workList.items(), function(item) {
-				return item.testId == testId;
+				return item.testId === testId;
 			});
 
 			jq.each(parameterOptions, function(index, parameterOption) {
@@ -122,7 +122,7 @@
 
 				parameterOption['patientName'] = details.patientName;
 				parameterOption['testName'] = details.test.name;
-				parameterOption['startDate'] = details.startDate;
+				parameterOption['dateActivated'] = details.dateActivated;
 				parameterOpts.parameterOptions.push(parameterOption);
 			});
 
@@ -130,7 +130,7 @@
 
 
 			var options = exam.exams().map(function(item) { return item["containerId"]; });
-			exam.optts(options.filter(function(v,i) { return options.indexOf(v) == i; }));
+			exam.optts(options.filter(function(v,i) { return options.indexOf(v) === i; }));
 
 			//ko.applyBindings(exam, jq("#kotests")[0]);
 
@@ -163,7 +163,7 @@
 	function reorder(orderId) {
 		jq("#reorder-form #order").val(orderId);
 		var details = ko.utils.arrayFirst(workList.items(), function(item) {
-			return item.orderId == orderId;
+			return item.orderId === orderId;
 		});
 		testDetails.details(details);
 		reorderDialog.show();
@@ -178,7 +178,7 @@
 					} else {
 						jq().toastmessage('showSuccessToast', data.message);
 						var reorderedTest = ko.utils.arrayFirst(workList.items(), function(item) {
-							return item.orderId == orderIdd.val();
+							return item.orderId === orderIdd.val();
 						});
 						workList.items.remove(reorderedTest);
 					}
@@ -329,7 +329,7 @@
 	<tbody data-bind="foreach: items">
 	<tr>
 		<td data-bind="text: sampleId"></td>
-		<td data-bind="text: startDate"></td>
+		<td data-bind="text: dateActivated"></td>
 		<td data-bind="text: patientIdentifier"></td>
 		<td data-bind="text: patientName"></td>
 		<td data-bind="text: gender"></td>
@@ -384,7 +384,7 @@
 
 				<p>
 				<div class="dialog-data">Test Date:</div>
-				<div class="inline" data-bind="text: parameterOptions()[0].startDate"></div>
+				<div class="inline" data-bind="text: parameterOptions()[0].dateActivated"></div>
 			</p>
 			</div>
 
@@ -485,7 +485,7 @@
 
 			<p>
 			<div class="dialog-data">Test Date:</div>
-			<div class="inline" data-bind="text: details().startDate"></div>
+			<div class="inline" data-bind="text: details().dateActivated"></div>
 		</p>
 
 			<p>
@@ -527,7 +527,7 @@
 	</tbody>
 	<tbody data-bind="foreach: items">
 	<tr>
-		<td data-bind="text: startDate"></td>
+		<td data-bind="text: dateActivated"></td>
 		<td data-bind="text: patientIdentifier"></td>
 		<td data-bind="text: patientName"></td>
 		<td data-bind="text: age"></td>
