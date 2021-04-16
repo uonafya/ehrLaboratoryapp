@@ -55,7 +55,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Generate list of test model using orders
-	 * 
+	 *
 	 * @param orders
 	 * @return
 	 */
@@ -71,7 +71,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Generate list of test models using tests
-	 * 
+	 *
 	 * @param tests
 	 * @return
 	 */
@@ -93,7 +93,7 @@ public class LaboratoryUtil {
 	// generateModelsForPrintWorkListFromTests showResults
 	/**
 	 * Generate list of test models for Print WorkList using tests
-	 * 
+	 *
 	 * @param tests
 	 * @return
 	 */
@@ -132,7 +132,7 @@ public class LaboratoryUtil {
 				//ghanshyam 7-august-2013 code review bug
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				TestModel tm = new TestModel();
-				tm.setStartDate(sdf.format(order.getDateActivated()));
+				tm.setDateActivated(sdf.format(order.getDateActivated()));
 				tm.setPatientId(order.getPatient().getPatientId());
 				tm.setPatientIdentifier(order.getPatient()
 						.getPatientIdentifier().getIdentifier());
@@ -229,7 +229,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Generate a single test model
-	 * 
+	 *
 	 * @param order
 	 * @return
 	 */
@@ -243,7 +243,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Generate a single test model
-	 * 
+	 *
 	 * @param test
 	 * @return
 	 */
@@ -254,7 +254,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Format a date
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -266,7 +266,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Parse a string into a date
-	 * 
+	 *
 	 * @param dateStr
 	 * @return
 	 * @throws ParseException
@@ -291,7 +291,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Get all test trees for all investigation belongs to a department
-	 * 
+	 *
 	 * @return
 	 */
 	public static List<TestTree> getAllTestTrees() {
@@ -313,7 +313,7 @@ public class LaboratoryUtil {
 		//ghanshyam 7-august-2013 code review bug
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		TestModel tm = new TestModel();
-		tm.setStartDate(sdf.format(order.getDateActivated()));
+		tm.setDateActivated(sdf.format(order.getDateActivated()));
 		tm.setPatientId(order.getPatient().getPatientId());
 		tm.setPatientIdentifier(order.getPatient().getPatientIdentifier()
 				.getIdentifier());
@@ -390,7 +390,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Search for concept using name
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -410,7 +410,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * generate data for form from an existing encounter
-	 * 
+	 *
 	 * @param model
 	 * @param encounter
 	 */
@@ -456,7 +456,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Get name of a detached by hibernate session concept
-	 * 
+	 *
 	 * @param searchConcept
 	 * @return
 	 */
@@ -473,7 +473,7 @@ public class LaboratoryUtil {
 
 	/**
 	 * Generate parameter models
-	 * 
+	 *
 	 * @param parameters
 	 * @param concept
 	 */
@@ -531,9 +531,9 @@ public class LaboratoryUtil {
 	private static void setDefaultParameterValue(Concept concept, Concept parentConcept, Encounter encounter, ParameterModel parameter) {
 		if (encounter != null) {
 			for (Obs obs : encounter.getAllObs()) {
-				if (parentConcept != null && 
+				if (parentConcept != null &&
 					obs.getObsGroup() != null &&
-					obs.getObsGroup().getConcept().equals(parentConcept) && 
+					obs.getObsGroup().getConcept().equals(parentConcept) &&
 					obs.getConcept().equals(concept)) {
 					parameter.setDefaultValue(obs.getValueAsString(Context.getLocale()));
 					break;
@@ -541,7 +541,7 @@ public class LaboratoryUtil {
 					parameter.setDefaultValue(obs.getValueAsString(Context.getLocale()));
 					break;
 				}
-			} 
+			}
 		}
 	}
 

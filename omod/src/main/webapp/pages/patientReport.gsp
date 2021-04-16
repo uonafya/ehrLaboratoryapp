@@ -4,6 +4,7 @@
 	ui.includeJavascript("ehrconfigs", "underscore-min.js")
 	ui.includeJavascript("ehrconfigs", "knockout-3.4.0.js")
 	ui.includeJavascript("ehrconfigs", "emr.js")
+	ui.includeJavascript("ehrconfigs", "moment.js")
 	ui.includeCss("ehrconfigs", "jquery-ui-1.9.2.custom.min.css")
 	// toastmessage plugin: https://github.com/akquinet/jquery-toastmessage-plugin/wiki
 	ui.includeJavascript("ehrconfigs", "jquery.toastmessage.js")
@@ -16,7 +17,7 @@
 <script>
 	var results = { 'items' : ko.observableArray([]) };
     var initialResults = [];
-	
+
 	<% currentResults.data.each { item -> %>
     initialResults.push(${item.toJson()});
     <% } %>
@@ -28,13 +29,19 @@
         jq('#othname').html(stringReplace('${patient.names.givenName}')+' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>other names</em>');
         jq('#agename').html('${patient.age} years ('+ moment('${patient.birthdate}').format('DD,MMM YYYY') +')');
 		jq('.tad').text('Last Visit: '+ moment('${previousVisit}').format('DD.MM.YYYY hh:mm')+' HRS');
-		
+
 		ko.applyBindings(results, jq("#patient-report")[0]);
 
         jq.each(initialResults, function(index, initialResult) {
             results.items.push(initialResult);
         });
     });
+
+	function stringReplace(word) {
+		var res = word.replace("[", "");
+		res=res.replace("]","");
+		return res;
+	}
 </script>
 
 <style>
@@ -96,25 +103,25 @@
 					<a href="${ui.pageLink('kenyaemr','userHome')}">
 						<i class="icon-home small"></i></a>
 				</li>
-				
+
 				<li>
 					<i class="icon-chevron-right link"></i>
 					<a href="${ui.pageLink('laboratoryapp','main')}#results">Laboratory</a>
 				</li>
-				
+
 				<li>
 					<i class="icon-chevron-right link"></i>
 					Patient Reports
 				</li>
 			</ul>
 		</div>
-		
+
 		<div class="patient-header new-patient-header">
 			<div class="demographics">
 				<h1 class="name">
 					<span id="surname"></span>
 					<span id="othname"></span>
-					
+
 					<span class="gender-age">
 						<span>
 							<% if (patient.gender == "F") { %>
@@ -124,11 +131,11 @@
 							<% } %>
 						</span>
 						<span id="agename"></span>
-						
+
 					</span>
 				</h1>
-				
-				<br/>
+
+					<br/>
 				<div id="stacont" class="status-container">
 					<span class="status active"></span>
 					Visit Status
@@ -141,9 +148,9 @@
 				<em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Patient ID</em>
 				<span>${patient.getPatientIdentifier()}</span>
 				<br>
-				
+
 				<div class="catg">
-					<i class="icon-tags small" style="font-size: 16px"></i><small>Category:</small> ${category} 
+					<i class="icon-tags small" style="font-size: 16px"></i><small>Category:</small> ${category}
 				</div>
 			</div>
 			<div class="close"></div>
@@ -162,7 +169,7 @@
 				<th>Date Ordered</th>
 			</tr>
 		</thead>
-		
+
 		<tbody data-bind="foreach: items">
 			<tr data-bind="if: (level && level.toUpperCase() === 'LEVEL_INVESTIGATION')">
 				<td colspan="5"><b data-bind="text: investigation"></b></td>
@@ -171,7 +178,7 @@
 			<tr data-bind="if: (level && level.toUpperCase() === 'LEVEL_SET')">
 				<td colspan="5"><b data-bind="text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + set"></b></td>
 			</tr>
-			
+
 			<tr data-bind="if: (level && level.toUpperCase() === 'LEVEL_TEST')">
 				<td data-bind="text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + test"></td>
 				<td data-bind="text: value"></td>
