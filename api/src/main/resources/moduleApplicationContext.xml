@@ -18,10 +18,10 @@
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<!-- Add here beans related to the API context -->
-
+	<context:component-scan base-package="org.openmrs.module.ehrlaboratory" />
 	<bean id="laboratoryapp.app.laboratoryapp" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
 		<constructor-arg value="laboratoryapp.ehrlaboratory" />
-		<constructor-arg value="Labaratory" />
+		<constructor-arg value="Laboratory" />
 		<constructor-arg value="laboratoryapp/main.page" />
 		<constructor-arg value="laboratoryapp:apps/lab.png" />
 		<constructor-arg value="2000" />
