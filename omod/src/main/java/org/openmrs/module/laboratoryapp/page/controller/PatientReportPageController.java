@@ -70,7 +70,7 @@ public class PatientReportPageController {
                 trms = formatTestResult(trms);
 
                 List<SimpleObject> results = SimpleObject.fromCollection(trms, ui,
-                        "investigation", "set", "test", "value", "hiNormal",
+                        "investigation", "set", "test", "value","comment", "hiNormal",
                         "lowNormal", "lowAbsolute", "hiAbsolute", "hiCritical", "lowCritical",
                         "unit", "level", "concept", "encounterId", "testId");
                 SimpleObject currentResults = SimpleObject.create("data", results);
@@ -93,6 +93,7 @@ public class PatientReportPageController {
                         trm.setSet(obs.getConcept().getDisplayString());
                         trm.setConcept(obs.getConcept());
                         setTestResultModelValue(groupMemberObs, trm);
+                        trm.setComment(obs.getComment());
                         trms.add(trm);
                     }
                 } else if (obs.getObsGroup() == null) {
@@ -101,6 +102,7 @@ public class PatientReportPageController {
                     trm.setSet(investigation.getDisplayString());
                     trm.setConcept(obs.getConcept());
                     setTestResultModelValue(obs, trm);
+                    trm.setComment(obs.getComment());
                     trms.add(trm);
                 }
             }
