@@ -164,6 +164,7 @@
 			<tr>
 				<th>Test</th>
 				<th>Result</th>
+                <th>Notes</th>
 				<th>Units</th>
 				<th>Reference Range</th>
 				<th>Date Ordered</th>
@@ -182,7 +183,8 @@
 			<tr data-bind="if: (level && level.toUpperCase() === 'LEVEL_TEST')">
 				<td data-bind="text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + test"></td>
 				<td data-bind="text: value"></td>
-				<td data-bind="text: unit"></td>
+                <td data-bind="text: comment"></td>
+                <td data-bind="text: unit"></td>
 				<td>
 					<div data-bind="if: (lowNormal || hiNormal)">
 						<span data-bind="text: 'Adult/Male:' + lowNormal + '//' + hiNormal"></span>

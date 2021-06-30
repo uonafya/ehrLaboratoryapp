@@ -240,6 +240,14 @@
 					</p>
 				</div>
 
+
+				<div>
+                    <p>
+                        <label for="test_result_comment">Additional Notes:</label>
+                        <input type="text" name="test_result_comment" id="test_result_comment" />
+                    </p>
+                </div>
+
 				<div data-bind="if: !type">
 					<p>
 						<label for="result-text" data-bind="text: title"></label>

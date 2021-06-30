@@ -68,7 +68,7 @@ public class ResultFragmentController {
 		return resultsTemplate;
 	}
 
-	public SimpleObject saveResult(@BindParams("wrap") ResultModelWrapper resultWrapper) {
+	public SimpleObject saveResult(@BindParams("wrap") ResultModelWrapper resultWrapper,  @RequestParam(value = "test_result_comment",required = false) String comment) {
 		LaboratoryService ls = Context.getService(LaboratoryService.class);
 		LabTest test = ls.getLaboratoryTest(resultWrapper.getTestId());
 		Encounter encounter = getEncounter(test);
@@ -81,11 +81,11 @@ public class ResultFragmentController {
 				String[] parentChildConceptIds = StringUtils.split(resultModel.getConceptName(), ".");
 				Concept testGroupConcept = Context.getConceptService().getConcept(parentChildConceptIds[0]);
 				Concept testConcept = Context.getConceptService().getConcept(parentChildConceptIds[1]);
-				addLaboratoryTestObservation(encounter, testConcept, testGroupConcept, result, test);
+				addLaboratoryTestObservation(encounter, testConcept, testGroupConcept, result, test, comment);
 				continue;
 			}
 			Concept concept = Context.getConceptService().getConcept(resultModel.getConceptName());
-			addLaboratoryTestObservation(encounter, concept, null, result, test);
+			addLaboratoryTestObservation(encounter, concept, null, result, test, comment);
 		}
 
 		encounter = Context.getEncounterService().saveEncounter(encounter);
@@ -153,7 +153,7 @@ public class ResultFragmentController {
 		}
 	}
 
-	private void addLaboratoryTestObservation(Encounter encounter, Concept testConcept, Concept testGroupConcept, String result, LabTest test) {
+	private void addLaboratoryTestObservation(Encounter encounter, Concept testConcept, Concept testGroupConcept, String result, LabTest test, String comment) {
 		this.log.warn("testConceptId=" + testConcept);
 		this.log.warn("testGroupConceptId=" + testGroupConcept);
 		System.out.println("Got into the adding lab test observation with testConceptId as>>" + testConcept + " and testGroupConceptId as >>" + testGroupConcept);
@@ -166,9 +166,11 @@ public class ResultFragmentController {
 		} else if (testConcept.getDatatype().getName().equalsIgnoreCase("Numeric")) {
 			if (StringUtils.isNotBlank(result))
 				obs.setValueNumeric(Double.valueOf(Double.parseDouble(result)));
+			    obs.setComment(comment);
 		} else if (testConcept.getDatatype().getName().equalsIgnoreCase("Coded")) {
 			Concept answerConcept = LaboratoryUtil.searchConcept(result);
 			obs.setValueCoded(answerConcept);
+			obs.setComment(comment);
 		}
 		if (testGroupConcept != null) {
 			Obs testGroupObs = getObs(encounter, testGroupConcept, null);
