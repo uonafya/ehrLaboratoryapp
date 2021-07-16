@@ -437,7 +437,7 @@
 						<input class="result-text" type="text" data-bind="attr : {'name' : 'wrap.results[' + \$index() + '].value', value : defaultValue }" >
 					</p>
 				</div>
-                <div>
+                <div data-bind="if: (\$index() ===(\$parent.parameterOptions().length - 1))" >
                     <label for="test_result_comment">Additional Notes:</label>
                     <input type="text" name="test_result_comment" id="test_result_comment" />
                 </div>
