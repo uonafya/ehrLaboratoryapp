@@ -33,12 +33,12 @@
 	</modules>
 	
 	<properties>
-		<openMRSVersion>1.12.0</openMRSVersion>
-		<hospitalcoreVersion>1.0.0</hospitalcoreVersion>
+		<openMRSVersion>2.3.3</openMRSVersion>
+		<hospitalcoreVersion>1.0.7-SNAPSHOT</hospitalcoreVersion>
 		<kenyacoreVersion>2.4.1</kenyacoreVersion>
 		<kenyauiVersion>2.1.1</kenyauiVersion>
 		<kenyaemrVersion>17.0.3</kenyaemrVersion>
-		<ehrlaboratory>1.0.1</ehrlaboratory>
+		<ehrlaboratory>1.0.2-SNAPSHOT</ehrlaboratory>
 		<metadatadeployVersion>1.3</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<appframeworkVersion>2.9</appframeworkVersion>
