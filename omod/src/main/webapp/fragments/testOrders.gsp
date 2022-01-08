@@ -4,12 +4,14 @@
 <script>
 
     // get queue
+    var searchResult = [];
+
     function getPatientQueue(currentPage) {
         this.currentPage = currentPage;
         var phrase = jQuery("#searchPhrase").val();
 
         jQuery.ajax({
-            type: "POST",
+            type: "GET",
             url: "${ui.actionLink('ehrcashier','searchPatient','searchSystemPatient')}",
             dataType: "json",
             data: ({
@@ -24,7 +26,7 @@
                 updateSystemQueueTable(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                jq().toastmessage('showNoticeToast', "Bill ID Does Not Exist");
+                jq().toastmessage('showNoticeToast', "No linked record found");
                 jQuery("#ajaxLoader").hide();
             }
         });
@@ -33,35 +35,36 @@
 
     //update the queue table
     function updateSystemQueueTable(data) {
+        searchResult = data;
         var jq = jQuery;
         jq('#patient-search-results-table > tbody > tr').remove();
         var tbody = jq('#patient-search-results-table > tbody');
         for (index in data) {
             var item = data[index];
-            console.log(item)
             var row = '<tr>';
             <% props.each {
                if(it == props.last()){
+                  def pageLinkRevisit = ui.pageLink("ehrcashier", "billingQueue");
                    %>
             row += '<td> ' +
-                '<a title="View/Add Bill" onclick="ADVSEARCH.previousLabTests('+item.patientId +');"><i class="icon-arrow-right small" ></i></a>'+
+                '<a title="Previous Tests" onclick="ADVSEARCH.previousLabTests(' + item.patientId + ');"><i class="icon-arrow-right small" ></i></a>' +
                 '</td>';
             <% } else {%>
             row += '<td>' + item.${ it} + '</td>';
-            row=strReplace(row);
+            row = strReplace(row);
             <% }
                } %>
             row += '</tr>';
             tbody.append(row);
         }
-        if (jq('#patient-search-results-table tr').length <= 1){
+        if (jq('#patient-search-results-table tr').length <= 1) {
             tbody.append('<tr align="center"><td colspan="6">No patients found</td></tr>');
         }
     }
 
     function strReplace(word) {
         var res = word.replace("[", "");
-        res=res.replace("]","");
+        res = res.replace("]", "");
         return res;
     }
 
@@ -80,8 +83,7 @@
             if (phrase.length >= 1) {
                 jQuery("#ajaxLoader").show();
                 getPatientQueue(1);
-            }
-            else{
+            } else {
                 jq().toastmessage('showNoticeToast', "Specify atleast one character to Search");
             }
         },
@@ -105,7 +107,7 @@
         delay: function () {
             this.searchPatient(0, this.pageSize);
         },
-        previousLabTests: function(patientId){
+        previousLabTests: function (patientId) {
             window.location.href = ui.pageLink("ehrcashier", "billableServiceBillListForBD", {
                 "patientId": patientId
             });
@@ -116,9 +118,10 @@
 
 <div>
     <form onsubmit="return false" id="patientSystemSearchForm" method="get">
-            <input  autocomplete="off" placeholder="Search by Patient ID,Name or Bill Id"  id="searchPhrase" style="float:left; width:60%; padding:6px 10px -1px;" onkeyup="ADVSEARCH.startSearch(event);">
-            <img id="ajaxLoader" style="display:none; float:left; margin: 3px -4%;"
-                 src="${ui.resourceLink("ehrcashier", "images/ajax-loader.gif")}"/>
+        <input autocomplete="off" placeholder="Search by Patient ID,Name or Bill Id" id="searchPhrase"
+               style="float:left; width:50%; padding:6px 10px -1px;" onkeyup="ADVSEARCH.startSearch(event);">
+        <img id="ajaxLoader" style="display:none; float:left; margin: 3px -4%;"
+             src="${ui.resourceLink("ehrcashier", "images/ajax-loader.gif")}"/>
     </form>
 
     <div id="patient-search-results" style="display: block; margin-top:3px;">
@@ -153,10 +156,14 @@
                     </th>
                 </tr>
                 </thead>
-
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr align="center">
+                        <td colspan="6">No patients found</td>
+                    </tr>
+                </tbody>
             </table>
 
         </div>
-    </div>                                                          
+    </div>
 
 </div>
