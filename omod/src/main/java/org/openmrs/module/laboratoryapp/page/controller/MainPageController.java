@@ -19,8 +19,6 @@ public class MainPageController {
                     PageModel model,
                     PageRequest pageRequest,
                     UiUtils ui) {
-        pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
-        sessionContext.requireAuthentication();
         model.addAttribute("date", new Date());
         return null;
     }

@@ -25,8 +25,7 @@ public class QueuePageController {
 					PageModel model,
 					PageRequest pageRequest,
 					UiUtils ui) {
-		pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
-		sessionContext.requireAuthentication();
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String dateStr = sdf.format(new Date());
 		model.addAttribute("currentDate", dateStr);

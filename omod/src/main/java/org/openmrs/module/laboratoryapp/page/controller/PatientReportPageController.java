@@ -36,8 +36,6 @@ public class PatientReportPageController {
             PageModel model,
             UiUtils ui,
             PageRequest pageRequest){
-        //pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
-        //sessionContext.requireAuthentication();
 
         Patient patient = Context.getPatientService().getPatient(patientId);
         HospitalCoreService hcs = Context.getService(HospitalCoreService.class);
