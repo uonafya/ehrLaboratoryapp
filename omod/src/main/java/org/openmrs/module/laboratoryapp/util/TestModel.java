@@ -20,15 +20,18 @@
 
 package org.openmrs.module.laboratoryapp.util;
 
-import java.util.Comparator;
-
 import org.openmrs.Concept;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Comparator;
+
+@XmlRootElement
 //ghanshyam 04/07/2012 New Requirement #277
 public class TestModel implements Comparator<TestModel>, Comparable<TestModel> {
 
 	private String dateActivated;
 	private String patientIdentifier;
+
 	private Integer patientId;
 	private String patientName;
 	private String gender;
@@ -45,6 +48,14 @@ public class TestModel implements Comparator<TestModel>, Comparable<TestModel> {
 	private Integer conceptId;
 	private String sampleId;
 	public String value;
+	public String special;
+
+	public void setSpecial(String special){
+		this.special = special;
+	}
+	public String getSpecial(){
+		return special;
+	}
 
 	// ghanshyam 04/07/2012 New Requirement #277
 	public TestModel() {

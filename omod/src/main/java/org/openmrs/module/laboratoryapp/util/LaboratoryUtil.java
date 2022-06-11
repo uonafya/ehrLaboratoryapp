@@ -20,13 +20,7 @@
 
 package org.openmrs.module.laboratoryapp.util;
 
-import org.openmrs.Concept;
-import org.openmrs.ConceptAnswer;
-import org.openmrs.ConceptNumeric;
-import org.openmrs.ConceptSet;
-import org.openmrs.Encounter;
-import org.openmrs.Obs;
-import org.openmrs.Order;
+import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.hospitalcore.concept.TestTree;
@@ -37,15 +31,7 @@ import org.springframework.ui.Model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class LaboratoryUtil {
 
@@ -134,6 +120,7 @@ public class LaboratoryUtil {
 				TestModel tm = new TestModel();
 				tm.setDateActivated(sdf.format(order.getDateActivated()));
 				tm.setPatientId(order.getPatient().getPatientId());
+				tm.setSpecial(isSpecialClinic(order.getPatient().getPatientId()));
 				tm.setPatientIdentifier(order.getPatient()
 						.getPatientIdentifier().getIdentifier());
 				tm.setPatientName(PatientUtils.getFullName(order.getPatient()));
@@ -143,6 +130,7 @@ public class LaboratoryUtil {
 				setTestResultModelValue(obs, tm);
 				tm.setTestName(obs.getConcept());
 				tm.setOrderId(order.getOrderId());
+
 
 				if (test != null) {
 					tm.setStatus(test.getStatus());
@@ -315,6 +303,7 @@ public class LaboratoryUtil {
 		TestModel tm = new TestModel();
 		tm.setDateActivated(sdf.format(order.getDateActivated()));
 		tm.setPatientId(order.getPatient().getPatientId());
+
 		tm.setPatientIdentifier(order.getPatient().getPatientIdentifier()
 				.getIdentifier());
 		tm.setPatientName(PatientUtils.getFullName(order.getPatient()));
@@ -549,5 +538,13 @@ public class LaboratoryUtil {
 		ConceptNumeric cn = Context.getConceptService().getConceptNumeric(
 				concept.getConceptId());
 		return cn.getUnits();
+	}
+	public static String isSpecialClinic(Integer patientId) {
+		String isSpecialClinic = "false";
+		Patient patient = Context.getPatientService().getPatient(patientId);
+		if (patient.getAttribute(Context.getPersonService().getPersonAttributeTypeByUuid("09cd268a-f0f5-11ea-99a8-b3467ddbf779")) !=null) {
+			isSpecialClinic = "true";
+		}
+		return isSpecialClinic;
 	}
 }
