@@ -15,9 +15,13 @@
 		scheduleDate = jq("#reschedule-date-field");
 		orderId = jq("#order");
 		defaultSampleId = jq("#defaultSampleId");
-		details = { 'patientName' : 'Patient Name', 'dateActivated' : 'Start Date', 'test' : { 'name' : 'Test Name' } };
+		details = { 'patientName' : 'Patient Name', 'dateActivated' : 'Start Date','special':'special', 'test' : { 'name' : 'Test Name' }};
 		testDetails = { details : ko.observable(details) }
+        console.log(details);
+        console.log(testDetails);
+        console.log(queueData.tests);
 	});
+
 
 	function acceptTest() {
 		jq.post('${ui.actionLink("laboratoryapp", "queue", "acceptLabTest")}',
@@ -135,9 +139,17 @@
 
 	jq(function(){
 		ko.applyBindings(queueData, jq("#test-queue")[0]);
-
 		jq("#reschedule-date").datepicker("option", "dateFormat", "dd/MM/yyyy");
-	});
+		jq(document).load(function(){
+        var tracker = queueData.tests.length;
+		for(var i = 0; i<tracker;i++){
+		var isSpecial = jq('#special').eq(i).val();
+        		if(isSpecial == "true"){
+        		jq('#test-queue-row').css({backgroundColor:'red'});
+        		}else{
+        		jq('#test-queue-row').css({backgroundColor:'white'});
+        		}}
+    })});
 </script>
 
 <div>
@@ -196,7 +208,8 @@
 		</tr>
 	</thead>
 	<tbody data-bind="foreach: tests">
-		<tr>
+		<tr id="test-queue-row">
+		    <input id="special" data-bind="value: special" type="hidden">
 			<td data-bind="text: dateActivated"></td>
 			<td data-bind="text: patientIdentifier"></td>
 			<td data-bind="text: patientName"></td>

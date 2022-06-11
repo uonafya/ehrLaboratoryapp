@@ -1,20 +1,13 @@
 package org.openmrs.module.laboratoryapp.fragment.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.openmrs.Concept;
 import org.openmrs.Order;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.hospitalcore.model.Lab;
+import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.ehrlaboratory.LaboratoryService;
 import org.openmrs.module.ehrlaboratory.util.LaboratoryConstants;
+import org.openmrs.module.hospitalcore.model.Lab;
 import org.openmrs.module.laboratoryapp.util.LaboratoryTestUtil;
 import org.openmrs.module.laboratoryapp.util.LaboratoryUtil;
 import org.openmrs.module.laboratoryapp.util.TestModel;
@@ -24,7 +17,10 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.openmrs.module.appui.UiSessionContext;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class QueueFragmentController {
 
@@ -49,12 +45,15 @@ public class QueueFragmentController {
             @RequestParam(value = "phrase", required = false) String phrase,
             @RequestParam(value = "investigation", required = false) Integer investigationId,
             @RequestParam(value = "currentPage", required = false) Integer currentPage,
+            @RequestParam("patientId") Integer patientId,
             UiUtils ui) {
+
         LaboratoryService ls = Context.getService(LaboratoryService.class);
         Concept investigation = Context.getConceptService().getConcept(investigationId);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         List<SimpleObject> simpleObjects = new ArrayList<SimpleObject>();
+
         try {
             date = sdf.parse(dateStr);
             Map<Concept, Set<Concept>> testTreeMap = LaboratoryTestUtil.getAllowableTests();
@@ -77,11 +76,14 @@ public class QueueFragmentController {
                 //1. pick only tests accepted but pending results input 2. Also Pick those not yet accepted [ need to find out if there is need to show rejected tests in this queue]
                 if (testModel.getStatus() == null || testModel.getStatus().isEmpty() || testModel.getStatus().equals(LaboratoryConstants.TEST_STATUS_ACCEPTED)) {
                     tests.add(testModel);
+
                 }
             }
 
-
             simpleObjects = SimpleObject.fromCollection(tests, ui, "dateActivated", "patientIdentifier", "patientName", "gender", "age", "test.name", "orderId", "sampleId", "status");
+
+
+
         } catch (ParseException e) {
             e.printStackTrace();
             logger.error("Error when parsing order date!", e.getMessage());
@@ -155,6 +157,10 @@ public class QueueFragmentController {
         }
         logger.warn("Order (" + orderId + ") not found");
         return SimpleObject.create("status", "fail", "error", "Order (" + orderId + ") not found");
+
     }
 
+
 }
+
+

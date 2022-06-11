@@ -80,6 +80,7 @@
 				queueData.tests.removeAll();
 				jq.each(data, function(index, testInfo){
 					queueData.tests.push(testInfo);
+
 				});
 			});
 		}
