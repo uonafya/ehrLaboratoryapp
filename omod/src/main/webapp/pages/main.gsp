@@ -348,6 +348,7 @@
 					<li><a href="#results">Results</a></li>
 					<li><a href="#status">Functional Status</a></li>
 					<li><a href="#tests">Test Orders</a></li>
+					<li><a href="#foodHandling">Food Handling</a></li>
 					
 					<li id="refresh" class="ui-state-default">
 						<a style="color:#fff" class="button confirm">
@@ -376,6 +377,9 @@
 				<div id="tests">
 					${ ui.includeFragment("laboratoryapp", "testOrders") }
 				</div>
+				<div id="foodHandling">
+                    ${ ui.includeFragment("laboratoryapp", "foodHandling") }
+                </div>
 			</div>
 		</div>
 	</div>
