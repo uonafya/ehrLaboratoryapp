@@ -3,14 +3,20 @@ package org.openmrs.module.laboratoryapp.fragment.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.LabService;
+import org.openmrs.module.hospitalcore.model.FoodHandlerSimplifier;
 import org.openmrs.module.hospitalcore.model.FoodHandling;
+import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.ui.framework.UiUtils;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FoodHandlingFragmentController {
 
-    public void controller() {
+    public void controller(FragmentModel model) {
 
     }
 
@@ -35,5 +41,24 @@ public class FoodHandlingFragmentController {
                 labService.saveFoodHandlerProfile(foodHandling);
 
             }
+    }
+    public List<SimpleObject> getFoodHandlerTests(UiUtils uiUtils) {
+        LabService labService = Context.getService(LabService.class);
+
+        List<FoodHandling> getFoodHandlerList = new ArrayList<FoodHandling>(labService.getAllFoodHandlerProfiles());
+        List<FoodHandlerSimplifier> simplifierList =  new ArrayList<FoodHandlerSimplifier>();
+        FoodHandlerSimplifier foodHandlerSimplifier = null;
+
+        for(FoodHandling foodHandling : getFoodHandlerList) {
+            foodHandlerSimplifier = new FoodHandlerSimplifier();
+            foodHandlerSimplifier.setTestName(foodHandling.getName());
+            foodHandlerSimplifier.setConceptReference(foodHandling.getFoodHandlerConcept().getDisplayString());
+            foodHandlerSimplifier.setDescription(foodHandling.getDescription());
+            foodHandlerSimplifier.setCreator(Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
+            foodHandlerSimplifier.setDateCreated(String.valueOf(foodHandling.getCreatedDate()));
+            simplifierList.add(foodHandlerSimplifier);
+        }
+
+        return SimpleObject.fromCollection(simplifierList, uiUtils, "testName", "conceptReference", "description", "creator", "dateCreated");
     }
 }
