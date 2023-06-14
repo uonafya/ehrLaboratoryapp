@@ -19,7 +19,22 @@ import java.util.Locale;
 public class FoodHandlingFragmentController {
 
     public void controller(FragmentModel model) {
+        LabService labService = Context.getService(LabService.class);
 
+        List<FoodHandling> getFoodHandlerList = new ArrayList<FoodHandling>(labService.getAllFoodHandlerProfiles());
+        List<FoodHandlerSimplifier> simplifierList =  new ArrayList<FoodHandlerSimplifier>();
+        FoodHandlerSimplifier foodHandlerSimplifier = null;
+
+        for(FoodHandling foodHandling : getFoodHandlerList) {
+            foodHandlerSimplifier = new FoodHandlerSimplifier();
+            foodHandlerSimplifier.setTestName(foodHandling.getName());
+            foodHandlerSimplifier.setConceptReference(Context.getConceptService().getConcept(foodHandling.getConceptId()).getDisplayString());
+            foodHandlerSimplifier.setDescription(foodHandling.getDescription());
+            foodHandlerSimplifier.setCreator(Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
+            foodHandlerSimplifier.setDateCreated(String.valueOf(foodHandling.getCreatedDate()));
+            simplifierList.add(foodHandlerSimplifier);
+        }
+        model.addAttribute("list", simplifierList);
     }
 
     public void addFoodHandlerTest(
