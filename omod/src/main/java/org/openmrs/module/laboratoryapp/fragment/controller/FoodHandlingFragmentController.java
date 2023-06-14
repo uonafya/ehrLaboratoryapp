@@ -54,7 +54,7 @@ public class FoodHandlingFragmentController {
         for(FoodHandling foodHandling : getFoodHandlerList) {
             foodHandlerSimplifier = new FoodHandlerSimplifier();
             foodHandlerSimplifier.setTestName(foodHandling.getName());
-            foodHandlerSimplifier.setConceptReference(foodHandling.getFoodHandlerConcept().getDisplayString());
+            foodHandlerSimplifier.setConceptReference(Context.getConceptService().getConcept(foodHandling.getConceptId()).getDisplayString());
             foodHandlerSimplifier.setDescription(foodHandling.getDescription());
             foodHandlerSimplifier.setCreator(Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
             foodHandlerSimplifier.setDateCreated(String.valueOf(foodHandling.getCreatedDate()));
