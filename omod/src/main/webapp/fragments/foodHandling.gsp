@@ -1,8 +1,12 @@
 <script type="text/javascript">
-    jq(document).ready(function () {
+jq(document).ready(function () {
      var jq = jQuery;
      jq('#foodHandlingTable').DataTable();
+     jq("#addFoodHandlingBtn").on("click", function (e) {
+         e.preventDefault();
+         ui.navigate('laboratoryapp', 'foodHandlingHome');
      });
+ });
 </script>
 <table id="foodHandlingTable">
     <thead>
@@ -26,3 +30,7 @@
         <%}%>
     </tbody>
 </table>
+<br />
+<div>
+    <button id="addFoodHandlingBtn" class="task">Food Handling Report for Patient</button>
+</div>
