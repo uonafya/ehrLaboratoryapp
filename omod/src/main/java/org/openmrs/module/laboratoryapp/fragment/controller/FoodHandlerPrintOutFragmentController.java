@@ -61,6 +61,7 @@ public class FoodHandlerPrintOutFragmentController {
         model.addAttribute("testsDone", foodHandlerResultsSimplifierList);
         model.addAttribute("user", Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
         model.addAttribute("today", LabUtils.formatDateTime(new Date()));
+        model.addAttribute("names", currentPatient.getPerson().getGivenName()+" "+currentPatient.getPerson().getFamilyName());
     }
     private String processObs(Obs obs) {
         String results = "";
