@@ -1,70 +1,4 @@
-<script type="text/javascript">
-    jq = jQuery
-    jq(document).ready(function() {
 
-    });
-
-    function printFoodHandler() {
-        var printDiv = jq("#food-handle-print-div").html();
-        var printWindow = window.open('', '', 'height=400,width=800');
-        printWindow.document.write('<html><head><title>Food Handler Report</title>');
-        printWindow.document.write(printDiv);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    }
-</script>
-<style>
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: #FAFAFA;
-        font: 12pt "Tahoma";
-    }
-    * {
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-    }
-    .page {
-        width: 210mm;
-        min-height: 297mm;
-        padding: 20mm;
-        margin: 10mm auto;
-        border: 1px #D3D3D3 solid;
-        border-radius: 5px;
-        background: white;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .subpage {
-        padding: 1cm;
-        border: 5px red solid;
-        height: 257mm;
-        outline: 2cm #FFEAEA solid;
-    }
-
-    @page {
-        size: A4;
-        margin: 0;
-    }
-    @media print {
-        html, body {
-            width: 210mm;
-            height: 297mm;
-        }
-        .page {
-            margin: 0;
-            border: initial;
-            border-radius: initial;
-            width: initial;
-            min-height: initial;
-            box-shadow: initial;
-            background: initial;
-            page-break-after: always;
-        }
-    }
-</style>
 <div>
         <div class="page">
             <div class="subpage" id="food-handle-print-div">
@@ -76,7 +10,7 @@
                </div>
                <div>
                    <center>
-                        <h3>Patient SickOff Sheet</h3>
+                        <h3>Food Handling Certificate</h3>
                         <hr />
                    </center>
                </div>
