@@ -77,13 +77,13 @@
                <div style="text-align: center;" id="header">
                    ${ui.includeFragment("patientdashboardapp", "printHeader")}
                </div>
-               <div style="text-align: center; background-color: #B2BEB5;">
+               <br />
+               <div background-color: #B2BEB5;">
                     <h3>OFFICIAL RECEIPT</h3>
                </div>
                <div>
                    <center>
                         <h3>Food Handling Certificate</h3>
-                        <hr />
                    </center>
                </div>
                <div id="biodata">
