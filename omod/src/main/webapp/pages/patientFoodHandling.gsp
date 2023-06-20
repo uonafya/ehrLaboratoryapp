@@ -75,10 +75,10 @@
         <div class="page">
             <div class="subpage" id="food-handle-print-div">
                <div style="text-align: center;" id="header">
-                   <center>
-                       <img src="/openmrs/ms/uiframework/resource/ehrinventoryapp/images/kenya_logo.bmp" width="60" height="60" align="middle">
-                   </center>
                    ${ui.includeFragment("patientdashboardapp", "printHeader")}
+               </div>
+               <div style="text-align: center; background-color: #B2BEB5;">
+                    <h3>OFFICIAL RECEIPT</h3>
                </div>
                <div>
                    <center>
