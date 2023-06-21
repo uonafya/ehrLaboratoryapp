@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class LabUtils {
     public static String formatDateTime(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         return sdf.format(date);
     }
 }

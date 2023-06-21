@@ -1,5 +1,6 @@
 package org.openmrs.module.laboratoryapp.page.controller;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -94,6 +95,9 @@ public class PatientFoodHandlingPageController {
         model.addAttribute("user", Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
         model.addAttribute("today", LabUtils.formatDateTime(new Date()));
         model.addAttribute("names", currentPatient.getPerson().getGivenName()+" "+currentPatient.getPerson().getFamilyName());
+        model.addAttribute("generatedReceiptNumber", RandomStringUtils.random(19, true, true).toUpperCase()+ " "+LabUtils.formatDateTime(new Date()));
+        model.addAttribute("receiptNumber", RandomStringUtils.random(19, true, true).toUpperCase());
+
     }
 
     private String processObs(Obs obs) {

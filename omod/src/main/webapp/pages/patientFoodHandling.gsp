@@ -75,77 +75,35 @@
         <div class="page">
             <div class="subpage" id="food-handle-print-div">
                <div style="text-align: center;" id="header">
-                   ${ui.includeFragment("patientdashboardapp", "printHeader")}
-               </div>
-               <br />
-               <div background-color: #B2BEB5;">
-                    <h3>OFFICIAL RECEIPT</h3>
+                   ${ui.includeFragment("patientdashboardapp", "printHeader", [currentPatient: currentPatient])}
                </div>
                <div>
-                   <center>
+                    <center>
                         <h3>Food Handling Certificate</h3>
-                   </center>
+                    </center>
                </div>
-               <div id="biodata">
-                    <h4>PATIENT BIO DATA</h4>
-
-                    <label>
-                        <span class='status active'></span>
-                        Identifier:
-                    </label>
-                    <span>${currentPatient.getPatientIdentifier()}</span>
-                    <br/>
-
-                    <label>
-                        <span class='status active'></span>
-                        Full Names:
-                    </label>
-                    <span>${names}</span>
-                    <br/>
-
-                    <label>
-                        <span class='status active'></span>
-                        Age:
-                    </label>
-                    <span>${currentPatient.age} (${ui.formatDatePretty(currentPatient.birthdate)})</span>
-                    <br/>
-
-                    <label>
-                        <span class='status active'></span>
-                        Gender:
-                    </label>
-                    <span>${currentPatient.gender}</span>
+               <hr />
+               <div>
+                    <h4>Receipt No. ${generatedReceiptNumber}</h4>
                </div>
                <div id="foodHandlerPrintInfo">
-                    <table id="testsDoneTbl">
-                        <thead>
-                            <th>Test Performed</th>
-                            <th>Results</th>
-                            <th>Date Performed</th>
-                            <th>Notes</th>
-                        </thead>
-                        <tbody>
-                        <% testsDone.each { %>
-                            <tr>
-                                <td>${it.testName}</td>
-                                <td>${it.results}</td>
-                                <td>${it.datePerformed}</td>
-                                <td>${it.description}</td>
-                            </tr>
-                        <%}%>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <th colspan="2">Printed By</th>
-                                <th colspan="2">Date Printed</th>
-                            </tr>
-                            <tr>
-                                <td colspan="2">${user}</td>
-                                <td colspan="2">${today}</td>
-                            </tr>
-                        </tbody>
-                    <table>
+                <table>
+                    <tr>
+                        <td>Medical Examination - Food handlers</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>300</td>
+                    </tr>
+                </table>
                <div>
+               <div>
+                    <p>Served by: ${user}</p>
+               </div>
+               <div>
+                    <p>Payments Summary for Receipt No.${receiptNumber}, Invoice(s): [Transaction code]</p>
+               </div>
             </div>
         </div>
         </div>
