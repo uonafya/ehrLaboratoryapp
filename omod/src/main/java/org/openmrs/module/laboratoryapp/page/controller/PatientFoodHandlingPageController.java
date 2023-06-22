@@ -8,8 +8,11 @@ import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.hospitalcore.BillingService;
 import org.openmrs.module.hospitalcore.LabService;
 import org.openmrs.module.hospitalcore.model.FoodHandling;
+import org.openmrs.module.hospitalcore.model.PatientServiceBill;
+import org.openmrs.module.hospitalcore.model.PatientServiceBillItem;
 import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.module.laboratoryapp.LaboratoryConstants;
 import org.openmrs.module.laboratoryapp.model.FoodHandlerResultsSimplifier;
@@ -17,10 +20,13 @@ import org.openmrs.module.laboratoryapp.utils.LabUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AppPage(LaboratoryConstants.APP_LABORATORY_APP)
 public class PatientFoodHandlingPageController {
@@ -91,12 +97,42 @@ public class PatientFoodHandlingPageController {
                 foodHandlerResultsSimplifierList1.add(foodHandlerResultsSimplifier);
             }
         }
-        model.addAttribute("testsDone", foodHandlerResultsSimplifierList1);
         model.addAttribute("user", Context.getAuthenticatedUser().getGivenName()+" "+Context.getAuthenticatedUser().getFamilyName());
         model.addAttribute("today", LabUtils.formatDateTime(new Date()));
         model.addAttribute("names", currentPatient.getPerson().getGivenName()+" "+currentPatient.getPerson().getFamilyName());
         model.addAttribute("generatedReceiptNumber", RandomStringUtils.random(19, true, true).toUpperCase()+ " "+LabUtils.formatDateTime(new Date()));
         model.addAttribute("receiptNumber", RandomStringUtils.random(19, true, true).toUpperCase());
+
+        BillingService billingService = Context.getService(BillingService.class);
+
+        List<PatientServiceBill> patientsBills = billingService.listPatientServiceBillByPatient(0, 1000, currentPatient);
+        boolean testPaidFor = false;
+        String receiptNumber = "000";
+        BigDecimal testCost = null;
+        String comments = "";
+        String description = "";
+        for(PatientServiceBill patientServiceBill:patientsBills) {
+            Set<PatientServiceBillItem> patientServiceBillItemSet = new HashSet<PatientServiceBillItem>(patientServiceBill.getBillItems());
+            for(PatientServiceBillItem patientServiceBillItem : patientServiceBillItemSet) {
+                if(patientServiceBillItem.getService().getConceptId().equals(Context.getConceptService().getConceptByUuid("bfb8c2a0-e976-41fb-9709-d6750be57825").getConceptId())) {
+                    testPaidFor = true;
+                    testCost = patientServiceBillItem.getAmount();
+                    break;
+                }
+            }
+            if(testPaidFor) {
+                receiptNumber = receiptNumber + patientServiceBill.getReceipt().getId();
+                comments = patientServiceBill.getComment();
+                description = patientServiceBill.getDescription();
+                break;
+            }
+        }
+
+        model.addAttribute("testPaid", testPaidFor);
+        model.addAttribute("receiptSerialNumber", receiptNumber);
+        model.addAttribute("costOfTest", testCost);
+        model.addAttribute("comments", comments);
+        model.addAttribute("description", description);
 
     }
 

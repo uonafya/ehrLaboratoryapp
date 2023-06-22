@@ -70,7 +70,7 @@
     }
 </style>
 <div class="ke-page-content">
-<% if(qualified) {%>
+<% if(testPaid) {%>
     <div>
         <div class="page">
             <div class="subpage" id="food-handle-print-div">
@@ -90,11 +90,11 @@
                 <table>
                     <tr>
                         <td>Medical Examination - Food handlers</td>
-                        <td>300</td>
+                        <td>${costOfTest}</td>
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td>300</td>
+                        <td>${costOfTest}</td>
                     </tr>
                 </table>
                <div>
@@ -102,8 +102,14 @@
                     <p>Served by: ${user}</p>
                </div>
                <div>
-                    <p>Payments Summary for Receipt No.${receiptNumber}, Invoice(s): [Transaction code]</p>
+                    <p>Payments Summary for Receipt No.${receiptNumber}, Invoice(s): [${comments}]</p>
                </div>
+               <div>
+                    ${description}
+               </div>
+            </div>
+            <div style="position:fixed; bottom:0;">
+                SerialNumber ${receiptSerialNumber}
             </div>
         </div>
         </div>
