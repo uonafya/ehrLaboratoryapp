@@ -349,7 +349,8 @@
 					<li><a href="#status">Functional Status</a></li>
 					<li><a href="#tests">Test Orders</a></li>
 					<li><a href="#foodHandling">Food Handling</a></li>
-					
+					<li><a href="#statistics">Statistics</a></li>
+
 					<li id="refresh" class="ui-state-default">
 						<a style="color:#fff" class="button confirm">
 							<i class="icon-refresh"></i>
@@ -379,6 +380,9 @@
 				</div>
 				<div id="foodHandling">
                     ${ ui.includeFragment("laboratoryapp", "foodHandling") }
+                </div>
+                <div id="statistics">
+                    ${ ui.includeFragment("laboratoryapp", "statistics") }
                 </div>
 			</div>
 		</div>
