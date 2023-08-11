@@ -8,7 +8,8 @@
 	<name>Laboratory Module App</name>
 	<description>Laboratory Module for the EHR </description>
 	<url>https://wiki.openmrs.org/display/docs/Laboratory+Module+Module</url>
-	
+
+
 	<developers>
 		<developer>
 			<name>HealthIT</name>
