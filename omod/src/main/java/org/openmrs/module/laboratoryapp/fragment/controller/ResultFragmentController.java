@@ -146,9 +146,11 @@ public class ResultFragmentController {
 			patientInQueue.setSex(patient.getGender());
 			patientInQueue.setCategory(selectedCategory);
 			patientInQueue.setVisitStatus(visitStatus);
+			patientInQueue.setClearedToNextServicePoint(1);
 			queueService.saveOpdPatientQueue(patientInQueue);
 		} else {
 			patientInQueue.setReferralConcept(referralConcept);
+			patientInQueue.setClearedToNextServicePoint(1);
 			queueService.saveOpdPatientQueue(patientInQueue);
 		}
 	}
