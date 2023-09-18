@@ -48,8 +48,6 @@
 
 		<require_module>org.openmrs.module.uiframework</require_module>
 
-		<require_module>org.openmrs.module.uilibrary</require_module>
-
 		<require_module>org.openmrs.module.hospitalcore</require_module>
 
 		<require_module>org.openmrs.module.ehrlaboratory</require_module>
